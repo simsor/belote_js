@@ -1,0 +1,37 @@
+
+{"Couleur":""
+  "Cartes":[
+  {
+    "Nom" : "As",
+    "Valeur":11
+  },
+  {
+    "Nom" :"Roi",
+    "Valeur":4
+  },
+  {
+    "Nom" :"Dame",
+    "Valeur":3
+  },
+  {
+    "Nom" :"Valet",
+    "Valeur":""
+  },
+  {
+    "Nom" :"10",
+    "Valeur":10
+  },
+  {
+    "Nom" :"9",
+    "Valeur":""
+  },
+  {
+    "Nom" :"8",
+    "Valeur":0
+  },
+  {
+    "Nom" :"7",
+    "Valeur":0
+  }],
+  "isAtout":false
+}
