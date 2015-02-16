@@ -62,7 +62,7 @@ Deck.prototype.recupererFichierJSON = function(parametres,tableau,couleur){
   $.getJSON(parametres["modelCarte"],{async:false},function(data){
     $.each(data,function(i){
       //on affecte une couleur aux cartes
-      this['Couleur']=couleur
+	this['Couleur']=couleur;
       //ajoute au tableau de cartes
       tableau.push(this);
       });
@@ -74,7 +74,7 @@ Deck.prototype.recupererFichierJSON = function(parametres,tableau,couleur){
         });
       }
     });
-}
+};
 
 /*
 * generation du jeu de carte
@@ -89,16 +89,24 @@ Deck.prototype.generationDeckCarte = function(nbCarte,modeleCarte){
   parametres = {
     "nbCarte":nbCarte,
     "modelCarte":modeleCarte
-  }
+  };
   var couleurs =['Trèfle','Pique','Carreau','Coeur'];
   for(var i = 0; i < 4; i++){
     recupererFichierJSON(parametres,jeu,couleurs[i]);
   }
   this.cartes = jeu;
-}
+};
 
 Deck.prototype.distribuerCarte = function(joueurs,jeu){
   for(var i = 0; i<2; i=i+1){
-    $.each(joueurs)
+      $.each(joueurs);
   }
+};
+
+/*
+ * Classe représentant le tapis
+ */
+
+function Tapis() {
+    this.cartes = [];
 }
