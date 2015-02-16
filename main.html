@@ -3,11 +3,24 @@
 <head>
 <meta charset="utf-8">
 <title>JsBelote</title>
-<script type="text/javascript" src="jquery-1.11.2.js"></script>
-<script type="text/javascript" src="genererJeu.js"></script>
+<script src="jquery-1.11.2.js"></script>
+<script src="Paquet.js"></script>
+<script src="Joueur.js"></script>
 <script type="text/javascript">
+
+ var equipe1 = new Equipe(1);
+ var equipe2 = new Equipe(2);
+
+ var joueur1 = new Joueur("Simon G", equipe1);
+ var joueur2 = new Joueur("Tristan", equipe2);
+ var joueur3 = new Joueur("Simon C", equipe1);
+ var joueur4 = new Joueur("Romain", equipe2);
+
+ var deck = new Deck();
+ 
+ 
 </script>
 <body>
-
+    
 </body>
 </html>

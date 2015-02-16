@@ -46,3 +46,12 @@ Deck.prototype.couper = function() {
 
     this.cartes = tableau;
 };
+
+
+
+/*
+ * Classe représentant le tapis de jeu
+ */
+function Tapis() {
+    this.cartes = [];
+}
