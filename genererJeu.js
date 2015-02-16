@@ -1,27 +1,20 @@
 
-function recupererFichierJSON(fichier,tableau){
-  var data = null;
-  $.ajax({
-      url : fichier,
-      type : 'GET',
-      data : 'JSON',
-      success : function(code_json, statut){
-          tableau.push(JSON.parse(code_json));
-       },
-       error : function(resultat, statut, erreur){
-       },
-       complete : function(resultat, statut){
-       }
-   });
-   return data;
+function recupererFichierJSON(fichier,tableau,couleur){
+  $.getJSON(fichier,function(data){
+    $.each(data,function(i){
+      this['Couleur']=couleur
+      tableau.push(this);
+      });
+    console.log(tableau);
+    });
 }
+
 
   var jeu = [];
   /*
   * generation du jeu de carte
   */
-  var couleurs =['Trèfle','Pique','Carreau','Coeur']
+  var couleurs =['Trèfle','Pique','Carreau','Coeur'];
   for(var i = 0; i < 4; i++){
-    recupererFichierJSON('cartes.json',jeu);
+    recupererFichierJSON('cartes.json',jeu,couleurs[i]);
   }
-  console.log(jeu);
