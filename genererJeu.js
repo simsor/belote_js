@@ -1,12 +1,12 @@
 
-function recupererFichierJSON(fichier){
+function recupererFichierJSON(fichier,tableau){
   var data = null;
   $.ajax({
       url : fichier,
       type : 'GET',
       data : 'JSON',
       success : function(code_json, statut){
-          data = JSON.parse(code_json);
+          tableau.push(JSON.parse(code_json));
        },
        error : function(resultat, statut, erreur){
        },
@@ -20,7 +20,8 @@ function recupererFichierJSON(fichier){
   /*
   * generation du jeu de carte
   */
+  var couleurs =['Trèfle','Pique','Carreau','Coeur']
   for(var i = 0; i < 4; i++){
-    console.log(recupererFichierJSON('cartes.json'));
+    recupererFichierJSON('cartes.json',jeu);
   }
   console.log(jeu);
