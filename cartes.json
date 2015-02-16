@@ -1,7 +1,4 @@
-
-{
-  "Couleur":"",
-  "Cartes":[
+[
   {
     "Nom" : "As",
     "Valeur":11
@@ -33,6 +30,5 @@
   {
     "Nom" :"7",
     "Valeur":0
-  }],
-  "isAtout":false
-}
+  }
+]
