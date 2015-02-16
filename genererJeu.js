@@ -1,6 +1,6 @@
 
 /*
-* Function qui permet de récuperer un model de carte dans un fichier JSON
+* Fonction qui permet de récuperer un model de carte dans un fichier JSON
 * et rempli un tableau de facon synchrone
 * parametre : parametres(le modele, le fichier JSON), le tableau, la couleur
 */
@@ -26,6 +26,7 @@ function recupererFichierJSON(parametres,tableau,couleur){
       }
     });
 }
+
 /*
 * generation du jeu de carte
 * parametre : genere un jeu de carte en fonction d'un fichier modele JSON
@@ -35,6 +36,7 @@ function recupererFichierJSON(parametres,tableau,couleur){
 function generationDeckCarte(nbCarte,modeleCarte){
   var jeu = [];
   var fin = false;
+  //definition des parametres
   parametres = {
     "nbCarte":nbCarte,
     "modelCarte":modeleCarte
