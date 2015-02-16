@@ -97,7 +97,8 @@ Deck.prototype.generationDeckCarte = function(nbCarte,modeleCarte){
   this.cartes = jeu;
 }
 
-
 Deck.prototype.distribuerCarte = function(joueurs,jeu){
-  for(i)
+  for(var i = 0; i<2; i=i+1){
+    $.each(joueurs)
+  }
 }
