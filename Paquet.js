@@ -104,9 +104,10 @@ Deck.prototype.distribuerCarte = function(joueurs,jeu){
 };
 
 /*
- * Classe représentant le tapis
+ * Classe représentant la table (avec des joueurs autour et des cartes)
  */
 
-function Tapis() {
-    this.cartes = [];
+function Table() {
+    this.tapis = [];
+    this.joueurs = [];
 }
