@@ -17,7 +17,27 @@
  var joueur4 = new Joueur("Romain", equipe2);
 
  var deck = new Deck();
+ deck.genererDepuisFichier("cartes.json");
+ deck.melanger();
+
+ var table = new Table(deck);
+ table.joueurs.push(joueur1);
+ table.joueurs.push(joueur2);
+ table.joueurs.push(joueur3);
+ table.joueurs.push(joueur4);
  
+ table.distributionInitiale();
+ table.retourner();
+
+ for (var i=0; i < table.joueurs.length; i++) {
+     console.log(table.joueurs[i].pseudo);
+     console.log(table.joueurs[i].main);
+     console.log("======================");
+ }
+
+ console.log("Dessus : ");
+ console.log(table.carte_retournee);
+ console.log(table.deck.cartes);
  
 </script>
 <body>

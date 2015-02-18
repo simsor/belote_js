@@ -1,3 +1,7 @@
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 /*
  * Classe représentant une carte d'un jeu
  */
@@ -7,6 +11,20 @@ function Carte(nom, couleur, valeur, atout) {
     this.valeur = valeur;
     this.atout = atout || false;
 }
+
+Carte.prototype.transformerEnAtout = function() {
+    switch(this.nom) {
+    case "9":
+	this.valeur = 14;
+	break;
+
+    case "Valet":
+	this.valeur = 20;
+	break;
+    }
+
+    this.atout = true;
+};
 
 /*
  * Classe représentant un deck de cartes
@@ -20,11 +38,11 @@ Deck.prototype.melanger = function() {
     var nombre_de_fois = getRandomInt(30, 50);
     var tab = [].concat(this.cartes);
 
-    for(i=0; i < nombre_de_fois; i++) {
+    for(var i=0; i < nombre_de_fois; i++) {
 	var nb1 = getRandomInt(0, 32);
 	var nb2 = getRandomInt(0, 32);
 
-	var temp = tableau[nb1];
+	var temp = tab[nb1];
 	tab[nb1] = tab[nb2];
 	tab[nb2] = temp;
     }
@@ -62,7 +80,7 @@ Deck.prototype.recupererFichierJSON = function(parametres,tableau,couleur){
   $.getJSON(parametres["modelCarte"],{async:false},function(data){
     $.each(data,function(i){
       //on affecte une couleur aux cartes
-	this['Couleur']=couleur;
+	this['couleur']=couleur;
       //ajoute au tableau de cartes
       tableau.push(this);
       });
@@ -74,6 +92,16 @@ Deck.prototype.recupererFichierJSON = function(parametres,tableau,couleur){
         });
       }
     });
+};
+
+Deck.prototype.genererDepuisFichier = function(fichier) {
+    var couleurs = ["Coeur", "Pique", "Trèfle", "Carreau"];
+    for(var i = 0; i< couleurs.length; i++) {
+	this.recupererFichierJSON({
+	    "modelCarte": fichier,
+	    "nbCarte": 32
+	}, this.cartes, couleurs[i]);
+    }
 };
 
 /*
@@ -104,8 +132,87 @@ Deck.prototype.distribuerCarte = function(joueurs,jeu){
 };
 
 /*
- * Classe représentant le tapis
+ * Classe représentant la table (avec des joueurs autour et des cartes)
  */
+
 function Tapis() {
     this.cartes = [];
+
+
+function Table(deck) {
+    this.tapis = [];
+    this.joueurs = [];
+    this.deck = deck;
+    this.carte_retournee = undefined;
+    this.atout = "Aucun";
+
 }
+
+Table.prototype.donnerCarte = function(joueur, nombre) {
+    nombre = nombre || 1;
+    // array.shift() renvoie le 1er élément et le supprime
+    for(var i = 0; i < nombre; i++) {
+	var carte = this.deck.cartes.shift();
+	joueur.main.push(carte);
+    }
+};
+
+Table.prototype.distributionInitiale = function() {
+    // On distribue les trois premieres
+    for(var i=0; i < this.joueurs.length; i++) {
+	this.donnerCarte(this.joueurs[i], 3);
+    }
+
+    // Puis deux à chaque
+    for(var i=0; i < this.joueurs.length; i++) {
+	this.donnerCarte(this.joueurs[i], 2);
+    }
+};
+
+Table.prototype.retourner = function() {
+    this.carte_retournee = this.deck.cartes.shift();
+    return this.carte_retournee;
+};
+
+Table.prototype.fairePrendre = function(joueur, deuxiemeTour, couleurChoisie) {
+    deuxiemeTour = deuxiemeTour || false;
+    couleurChoisie = couleurChoisie || "";
+
+    joueur.aPris = true;
+    joueur.main.push(this.carte_retournee);
+    this.carte_retournee = undefined;
+
+    if (deuxiemeTour) {
+	this.setAtout(couleurChoisie);
+    }
+    else {
+	this.setAtout(this.carte_retournee.couleur);
+    }
+};
+
+Table.prototype.setAtout = function(couleur) {
+    for(var i=0; i < this.deck.cartes.length; i++) {
+	if (this.deck.cartes[i].couleur == couleur) {
+	    this.deck.cartes[i].transformerEnAtout();
+	}
+    }
+
+    for (var i=0; i < this.joueurs.length; i++) {
+	for(j=0; j < this.joueurs[i].main.length; j++) {
+	    if (this.joueurs[i].main[j].couleur == couleur) {
+		this.joueurs[i].main[j].transformerEnAtout();
+	    }
+	}
+    }
+};
+
+Table.prototype.distributionDeuxiemeTour = function() {
+    for(var i=0; i < this.joueurs.length; i++) {
+	if (this.joueurs[i].aPris) {
+	    this.donnerCarte(this.joueurs[i], 2);
+	}
+	else {
+	    this.donnerCarte(this.joueurs[i], 3);
+	}
+    }
+};
