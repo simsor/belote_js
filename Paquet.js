@@ -106,7 +106,6 @@ Deck.prototype.distribuerCarte = function(joueurs,jeu){
 /*
  * Classe représentant le tapis
  */
-
 function Tapis() {
     this.cartes = [];
 }
