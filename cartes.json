@@ -1,34 +1,34 @@
 [
   {
-    "Nom" : "As",
-    "Valeur":11
+    "nom" : "As",
+    "valeur":11
   },
   {
-    "Nom" :"Roi",
-    "Valeur":4
+    "nom" :"Roi",
+    "valeur":4
   },
   {
-    "Nom" :"Dame",
-    "Valeur":3
+    "nom" :"Dame",
+    "valeur":3
   },
   {
-    "Nom" :"Valet",
-    "Valeur":""
+    "nom" :"Valet",
+      "valeur":2
   },
   {
-    "Nom" :"10",
-    "Valeur":10
+    "nom" :"10",
+    "valeur":10
   },
   {
-    "Nom" :"9",
-    "Valeur":""
+    "nom" :"9",
+    "valeur":0
   },
   {
-    "Nom" :"8",
-    "Valeur":0
+    "nom" :"8",
+    "valeur":0
   },
   {
-    "Nom" :"7",
-    "Valeur":0
+    "nom" :"7",
+    "valeur":0
   }
 ]

@@ -6,6 +6,7 @@ function Joueur(pseudo, equipe) {
     this.pseudo = pseudo;
     this.equipe = equipe;
     this.main = [];
+    this.aPris = false;
 }
 
 
