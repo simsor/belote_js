@@ -74,53 +74,97 @@
  }
 </script>
 <style>
+body {
+  overflow : hidden;
+}
 #tapis {
-  width : 100%;
-  height : 100%;
+  height: 100vh;
   background-image : url('tapis-de-belote.jpg');
+  background-attachment:fixed;
+  background-repeat:no-repeat;
+  background-position:center center;
 }
 #haut {
   margin: auto;
   position : absolute;
   top : 0;
-  left : 50%;
-
+  left : 35%;
 }
 #droite {
   position : absolute;
   right : 0;
-  top : 50%;
+  top : 30%;
 }
 #gauche {
   position : absolute;
   left : 0;
-  top : 50%;
+  top : 30%;
 }
 #bas {
   position : absolute;
   bottom : 0;
-  left : 50%;
+  left : 35%;
 }
 .jeu-joueur{
-  border : solid blue 2px;
-  width:100px;
-  height:100px;
+  text-align : center;
+}
+.vertical {
+  text-align: center;
+  width:100%;
+}
+.horizontal {
+  heigth:35%;
+  width:60px;
+}
+.carte {
+  width: 50px;
+}
+.rotate {
+  transform: rotate(90deg);
+  display : block;
+  margin-top: -20px;
+}
+.pseudo {
+  text-align: center;
 }
 </style>
 <body>
   <div id="tapis">
-    <div id="haut" class="jeu-joueur">
-      <script>
-      alert(joueur1.main);
-        joueur1.main.each(function(){
-          $("#haut").append("<p>Une carte</p>");
-        });
-      </script>
+    <div id="haut" class="tapis-vertical">
+      <div class=" jeu-joueur"></div>
     </div>
-    <div id="droite" class="jeu-joueur"></div>
-    <div id="gauche" class="jeu-joueur"></div>
-    <div id="bas" class="jeu-joueur"></div>
+    <div id="droite">
+      <div class="jeu-joueur"></div>
+    </div>
+    <div id="gauche">
+      <div class="jeu-joueur"></div>
+    </div>
+    <div id="bas" class="tapis-vertical">
+      <div class="jeu-joueur"></div>
+    </div>
   </div>
-
 </body>
 </html>
+<script>
+
+  $.each(  joueur1.main, function() {
+    $("#haut .jeu-joueur").append("<img  class='carte' src='jeu_de_carte/png/dos_de_carte.png' alt='dos de carte' />");
+    $('#haut .jeu-joueur').addClass("vertical");
+  });
+  $("#haut").append("<p class='pseudo'>"+joueur1.pseudo+"</p>");
+  $.each(  joueur2.main, function() {
+    $("#droite .jeu-joueur").append("<img   class='carte rotate' src='jeu_de_carte/png/dos_de_carte.png' alt='dos de carte' />");
+    $('#droite .jeu-joueur').addClass("horizontal");
+  });
+  $("#droite").prepend("<p class='pseudo'>"+joueur2.pseudo+"</p>");
+  $.each(  joueur3.main, function() {
+    $("#gauche .jeu-joueur").append("<img  class='carte rotate' src='jeu_de_carte/png/dos_de_carte.png' alt='dos de carte' />");
+    $('#gauche .jeu-joueur').addClass("horizontal");
+  });
+  $("#gauche").prepend("<p class='pseudo'>"+joueur3.pseudo+"</p>");
+  $.each(  joueur4.main, function() {
+    $("#bas .jeu-joueur").append("<img class='carte' src='jeu_de_carte/png/dos_de_carte.png' alt='dos de carte' />");
+    $('#bas .jeu-joueur').addClass("vertical");
+  });
+  $("#bas").prepend("<p class='pseudo'>"+joueur4.pseudo+"</p>");
+</script>
