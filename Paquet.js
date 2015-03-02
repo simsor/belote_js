@@ -139,6 +139,10 @@ Deck.prototype.distribuerCarte = function(joueurs,jeu){
  * Classe représentant la table (avec des joueurs autour et des cartes)
  */
 
+function Tapis() {
+    this.cartes = [];
+
+
 function Table(deck) {
     this.tapis = [];
     this.joueurs = [];
@@ -177,7 +181,7 @@ Table.prototype.retourner = function() {
 Table.prototype.fairePrendre = function(joueur, deuxiemeTour, couleurChoisie) {
     deuxiemeTour = deuxiemeTour || false;
     couleurChoisie = couleurChoisie || "";
-    
+
     joueur.aPris = true;
     joueur.main.push(this.carte_retournee);
 
@@ -217,4 +221,3 @@ Table.prototype.distributionDeuxiemeTour = function() {
 	}
     }
 };
-
