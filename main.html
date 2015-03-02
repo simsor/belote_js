@@ -75,14 +75,51 @@
 </script>
 <style>
 #tapis {
-  width : 500px;
-  height : 500px;
-  margin:auto;
+  width : 100%;
+  height : 100%;
   background-image : url('tapis-de-belote.jpg');
+}
+#haut {
+  margin: auto;
+  position : absolute;
+  top : 0;
+  left : 50%;
+
+}
+#droite {
+  position : absolute;
+  right : 0;
+  top : 50%;
+}
+#gauche {
+  position : absolute;
+  left : 0;
+  top : 50%;
+}
+#bas {
+  position : absolute;
+  bottom : 0;
+  left : 50%;
+}
+.jeu-joueur{
+  border : solid blue 2px;
+  width:100px;
+  height:100px;
 }
 </style>
 <body>
   <div id="tapis">
+    <div id="haut" class="jeu-joueur">
+      <script>
+      alert(joueur1.main);
+        joueur1.main.each(function(){
+          $("#haut").append("<p>Une carte</p>");
+        });
+      </script>
+    </div>
+    <div id="droite" class="jeu-joueur"></div>
+    <div id="gauche" class="jeu-joueur"></div>
+    <div id="bas" class="jeu-joueur"></div>
   </div>
 
 </body>
