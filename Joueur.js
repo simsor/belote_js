@@ -35,4 +35,17 @@ function Equipe(numero) {
     this.joueurs = [];
     this.score = 0;
     this.numero = numero;
+    this.cartes_gagnees = [];
 }
+
+Equipe.prototype.prendrePli = function(table) {
+    this.cartes_gagnees = this.cartes_gagnees.concat(table.tapis);
+    table.tapis.length = 0;
+};
+
+Equipe.prototype.calculerScore = function() {
+    this.score = 0;
+    for(var i=0; i < this.cartes_gagnees.length; i++) {
+	this.score += this.cartes_gagnees[i].valeur;
+    }
+};

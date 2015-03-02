@@ -129,12 +129,6 @@ Deck.prototype.generationDeckCarte = function(nbCarte,modeleCarte){
   this.cartes = jeu;
 };
 
-Deck.prototype.distribuerCarte = function(joueurs,jeu){
-  for(var i = 0; i<2; i=i+1){
-      $.each(joueurs);
-  }
-};
-
 /*
  * Classe représentant la table (avec des joueurs autour et des cartes)
  */
@@ -193,6 +187,8 @@ Table.prototype.fairePrendre = function(joueur, deuxiemeTour, couleurChoisie) {
 };
 
 Table.prototype.setAtout = function(couleur) {
+    this.atout = couleur;
+    
     for(var i=0; i < this.deck.cartes.length; i++) {
 	if (this.deck.cartes[i].couleur == couleur) {
 	    this.deck.cartes[i].transformerEnAtout();
