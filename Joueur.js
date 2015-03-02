@@ -11,8 +11,20 @@ function Joueur(pseudo, equipe) {
 
 Joueur.prototype.aCouleur = function(couleur) {
     for (var i=0; i < this.main.length; i++) {
-	
+	if (this.main[i].couleur == couleur)
+	    return true;
     }
+
+    return false;
+};
+
+Joueur.prototype.aAtout = function() {
+    for (var i=0; i < this.main.length; i++) {
+	if (this.main[i].atout)
+	    return true;
+    }
+
+    return false;
 };
 
 

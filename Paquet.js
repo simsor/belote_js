@@ -141,7 +141,7 @@ Deck.prototype.distribuerCarte = function(joueurs,jeu){
 
 function Tapis() {
     this.cartes = [];
-
+}
 
 function Table(deck) {
     this.tapis = [];
