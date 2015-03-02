@@ -9,6 +9,12 @@ function Joueur(pseudo, equipe) {
     this.aPris = false;
 }
 
+Joueur.prototype.aCouleur = function(couleur) {
+    for (var i=0; i < this.main.length; i++) {
+	
+    }
+};
+
 
 /*
  * Classe représentant une équipe de joueurs

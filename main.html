@@ -30,14 +30,48 @@
  table.retourner();
 
  for (var i=0; i < table.joueurs.length; i++) {
+     var texte = table.joueurs[i].pseudo;
+     for (var j=0; j < table.joueurs[i].main.length; j++) {
+	 var carte = table.joueurs[i].main[j];
+	 texte += "\n" + carte.nom + " de " + carte.couleur;
+     }
+     alert(texte);
+ }
+
+ alert("La carte retournée est : " + table.carte_retournee.nom + " de " + table.carte_retournee.couleur);
+
+ for(var i=0; i < table.joueurs.length; i++) {
+     var texte = table.joueurs[i].pseudo + ", prenez-vous ?";
+     var reponse = confirm(texte);
+     if (reponse) {
+	 table.fairePrendre(table.joueurs[i]);
+	 break;
+     }
+ }
+
+ if (table.atout == undefined) {
+     // Alors personne n'a pris au premier tour
+     // Deuxième tour.
+     for (var i=0; i < table.joueurs.length; i++) {
+	 var choix = prompt(table.joueurs[i].pseudo + ", à quoi prenez-vous ?");
+	 if (choix != "Carreau" && choix != "Trèfle" && choix != "Coeur" && choix != "Pique") {
+	     // Mauvais choix
+	     continue;
+	 }
+	 else {
+	     table.fairePrendre(table.joueurs[i], true, choix);
+	     break;
+	 }
+     }
+ }
+
+ table.distributionDeuxiemeTour();
+
+ for (var i=0; i < table.joueurs.length; i++) {
      console.log(table.joueurs[i].pseudo);
      console.log(table.joueurs[i].main);
      console.log("======================");
  }
-
- console.log("Dessus : ");
- console.log(table.carte_retournee);
- console.log(table.deck.cartes);
  
 </script>
 <body>

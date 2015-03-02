@@ -10,6 +10,7 @@ function Carte(nom, couleur, valeur, atout) {
     this.couleur =  couleur;
     this.valeur = valeur;
     this.atout = atout || false;
+    this.joueur = undefined;
 }
 
 Carte.prototype.transformerEnAtout = function() {
@@ -80,9 +81,12 @@ Deck.prototype.recupererFichierJSON = function(parametres,tableau,couleur){
   $.getJSON(parametres["modelCarte"],{async:false},function(data){
     $.each(data,function(i){
       //on affecte une couleur aux cartes
-	this['couleur']=couleur;
-      //ajoute au tableau de cartes
-      tableau.push(this);
+	var carte = new Carte();
+	carte.couleur = couleur;
+	carte.nom = this.nom;
+	carte.valeur = this.valeur;
+	//ajoute au tableau de cartes
+	tableau.push(carte);
       });
       //verification si le jeu est complet
       if(tableau.length>=parametres["nbCarte"]){
@@ -140,7 +144,7 @@ function Table(deck) {
     this.joueurs = [];
     this.deck = deck;
     this.carte_retournee = undefined;
-    this.atout = "Aucun";
+    this.atout = undefined;
 }
 
 Table.prototype.donnerCarte = function(joueur, nombre) {
@@ -148,6 +152,7 @@ Table.prototype.donnerCarte = function(joueur, nombre) {
     // array.shift() renvoie le 1er élément et le supprime
     for(var i = 0; i < nombre; i++) {
 	var carte = this.deck.cartes.shift();
+	carte.joueur = joueur;
 	joueur.main.push(carte);
     }
 };
@@ -175,7 +180,6 @@ Table.prototype.fairePrendre = function(joueur, deuxiemeTour, couleurChoisie) {
     
     joueur.aPris = true;
     joueur.main.push(this.carte_retournee);
-    this.carte_retournee = undefined;
 
     if (deuxiemeTour) {
 	this.setAtout(couleurChoisie);
@@ -183,6 +187,8 @@ Table.prototype.fairePrendre = function(joueur, deuxiemeTour, couleurChoisie) {
     else {
 	this.setAtout(this.carte_retournee.couleur);
     }
+
+    this.carte_retournee = undefined;
 };
 
 Table.prototype.setAtout = function(couleur) {
@@ -193,7 +199,7 @@ Table.prototype.setAtout = function(couleur) {
     }
 
     for (var i=0; i < this.joueurs.length; i++) {
-	for(j=0; j < this.joueurs[i].main.length; j++) {
+	for(var j=0; j < this.joueurs[i].main.length; j++) {
 	    if (this.joueurs[i].main[j].couleur == couleur) {
 		this.joueurs[i].main[j].transformerEnAtout();
 	    }
