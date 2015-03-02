@@ -139,16 +139,13 @@ Deck.prototype.distribuerCarte = function(joueurs,jeu){
  * Classe représentant la table (avec des joueurs autour et des cartes)
  */
 
-function Tapis() {
-    this.cartes = [];
-}
-
 function Table(deck) {
     this.tapis = [];
     this.joueurs = [];
     this.deck = deck;
     this.carte_retournee = undefined;
     this.atout = undefined;
+    this.couleur_demandee = undefined;
 }
 
 Table.prototype.donnerCarte = function(joueur, nombre) {
@@ -220,4 +217,68 @@ Table.prototype.distributionDeuxiemeTour = function() {
 	    this.donnerCarte(this.joueurs[i], 3);
 	}
     }
+};
+
+Table.prototype.getMaitre = function() {
+    var atoutPresent = false;
+    for(var i=0; i < this.cartes.length; i++) {
+	if (this.cartes[i].atout) {
+	    atoutPresent = true;
+	    break;
+	}
+    }
+
+    if(atoutPresent) {
+	var atoutMax = undefined;
+	for(var i=0; i < this.cartes.length; i++) {
+	    if (this.cartes[i].atout) {
+		if (atoutMax == undefined)
+		    atoutMax = this.cartes[i];
+
+		else if (this.cartes[i].valeur > atoutMax.valeur)
+		    atoutMax = this.cartes[i];
+		
+	    }
+	}
+
+	return atoutMax.joueur;
+    }
+    else {
+	var carteMax = undefined;
+	for(var i=0; i < this.cartes.length; i++) {
+	    if (this.cartes[i].couleur == this.couleur_demandee) {
+		if (carteMax == undefined)
+		    carteMax = this.cartes[i];
+
+		else if (this.cartes[i].valeur > carteMax.valeur)
+		    carteMax = this.cartes[i];
+		
+	    }
+	}
+
+	return carteMax.joueur;
+    }
+};
+
+Table.prototype.cartePeutEtreJouee = function(carte) {
+    if (carte.couleur == this.couleur_demandee)
+	return true;
+
+    if (!carte.joueur.aCouleur(this.couleur_demandee)) {
+	if (this.getMaitre().equipe == carte.joueur.equipe)
+	    // Le partenaire est maître
+	    return true;
+	
+	if (carte.atout)
+	    return true;
+
+	if (carte.joueur.aAtout())
+	    // Si il a un atout alors que la carte jouée n'en est pas un
+	    return false;
+	else
+	    return true;
+    }
+
+    // Si la couleur jouée n'est pas celle demandée mais qu'il a la couleur
+    return false;
 };
