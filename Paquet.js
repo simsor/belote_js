@@ -137,9 +137,12 @@ function Table(deck) {
     this.tapis = [];
     this.joueurs = [];
     this.deck = deck;
+    
     this.carte_retournee = undefined;
     this.atout = undefined;
     this.couleur_demandee = undefined;
+
+    this.index_distributeur = getRandomInt(0, 3);
 }
 
 Table.prototype.donnerCarte = function(joueur, nombre) {
@@ -154,14 +157,23 @@ Table.prototype.donnerCarte = function(joueur, nombre) {
 
 Table.prototype.distributionInitiale = function() {
     // On distribue les trois premieres
-    for(var i=0; i < this.joueurs.length; i++) {
+    var i = this.index_distributeur;
+    do {
+	i++;
+	if (i == 4)
+	    i = 0;
+	
 	this.donnerCarte(this.joueurs[i], 3);
-    }
-
+    } while (i != this.index_distributeur);
+ 
     // Puis deux à chaque
-    for(var i=0; i < this.joueurs.length; i++) {
+    var i = this.index_distributeur;
+    do {
+	i++;
+	if (i == 4)
+	    i = 0;
 	this.donnerCarte(this.joueurs[i], 2);
-    }
+    } while (i != this.index_distributeur);
 };
 
 Table.prototype.retourner = function() {
@@ -205,14 +217,23 @@ Table.prototype.setAtout = function(couleur) {
 };
 
 Table.prototype.distributionDeuxiemeTour = function() {
-    for(var i=0; i < this.joueurs.length; i++) {
+    var i = this.index_distributeur;
+    do {
+	i++;
+	if (i == 4)
+	    i = 0;
+	
 	if (this.joueurs[i].aPris) {
 	    this.donnerCarte(this.joueurs[i], 2);
 	}
 	else {
 	    this.donnerCarte(this.joueurs[i], 3);
 	}
-    }
+    } while (i != this.index_distributeur);
+
+    this.index_distributeur++;
+    if (this.index_distributeur == 4)
+	this.index_distributeur = 0; 
 };
 
 Table.prototype.getMaitre = function() {
