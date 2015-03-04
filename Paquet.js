@@ -2,6 +2,22 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+Object.cast = function(rawObj, constructor) {
+    var obj = new constructor();
+    for(var i in rawObj) {
+	obj[i] = rawObj[i];
+    }
+    return obj;
+};
+
+Object.castTableau = function(tab, constructor) {
+    for (var i=0; i < tab.length; i++) {
+	tab[i] = Object.cast(tab[i], constructor);
+    }
+
+    return tab;
+};
+
 /*
  * Classe représentant une carte d'un jeu
  */
@@ -25,6 +41,10 @@ Carte.prototype.transformerEnAtout = function() {
     }
 
     this.atout = true;
+};
+
+Carte.prototype.testerMachin = function() {
+    return "SALUT";
 };
 
 /*
@@ -143,6 +163,7 @@ function Table(deck) {
     this.couleur_demandee = undefined;
 
     this.index_distributeur = getRandomInt(0, 3);
+    this.index_joueur_courant = (this.index_distributeur == 3) ? 0 : this.index_distributeur;
 }
 
 Table.prototype.donnerCarte = function(joueur, nombre) {

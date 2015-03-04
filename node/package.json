@@ -1,0 +1,16 @@
+{
+    "name": "BeloteJS_Server",
+    "description": "Serveur pour le jeu de belote",
+    "private": true,
+    "version": "0.0.1",
+    "dependencies": {
+        "express": "~4.10",
+        "express-session": "~1.9",
+        "body-parser": "~1.10",
+        "mysql": "*",
+        "crypto": "~0.0",
+        "string": "~3.0",
+        "unidecode": "~0.1",
+        "async": "~0.9"
+    }
+}

@@ -34,6 +34,7 @@ Joueur.prototype.aAtout = function() {
 function Equipe(numero) {
     this.joueurs = [];
     this.score = 0;
+    this.belote = false;
     this.numero = numero;
     this.cartes_gagnees = [];
 }
@@ -44,8 +45,23 @@ Equipe.prototype.prendrePli = function(table) {
 };
 
 Equipe.prototype.calculerScore = function() {
-    this.score = 0;
+    var score_manche = 0;
     for(var i=0; i < this.cartes_gagnees.length; i++) {
-	this.score += this.cartes_gagnees[i].valeur;
+	score_manche += this.cartes_gagnees[i].valeur;
     }
+
+    if (this.belote) {
+	score_manche += 20;
+    }
+
+    return score_manche;
+};
+
+Equipe.prototype.aPris = function() {
+    for (var i=0; i < this.joueurs.length; i++) {
+	if (this.joueurs[i].aPris)
+	    return true;
+    }
+
+    return false;
 };
