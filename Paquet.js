@@ -99,7 +99,7 @@ Deck.prototype.recupererFichierJSON = function(parametres,tableau,couleur){
 };
 
 Deck.prototype.genererDepuisFichier = function(fichier) {
-    var couleurs = ["Coeur", "Pique", "Trèfle", "Carreau"];
+    var couleurs = ["Coeur", "Pique", "Trefle", "Carreau"];
     for(var i = 0; i< couleurs.length; i++) {
 	this.recupererFichierJSON({
 	    "modelCarte": fichier,
@@ -137,7 +137,7 @@ function Table(deck) {
     this.tapis = [];
     this.joueurs = [];
     this.deck = deck;
-    
+
     this.carte_retournee = undefined;
     this.atout = undefined;
     this.couleur_demandee = undefined;
@@ -162,10 +162,10 @@ Table.prototype.distributionInitiale = function() {
 	i++;
 	if (i == 4)
 	    i = 0;
-	
+
 	this.donnerCarte(this.joueurs[i], 3);
     } while (i != this.index_distributeur);
- 
+
     // Puis deux à chaque
     var i = this.index_distributeur;
     do {
@@ -200,7 +200,7 @@ Table.prototype.fairePrendre = function(joueur, deuxiemeTour, couleurChoisie) {
 
 Table.prototype.setAtout = function(couleur) {
     this.atout = couleur;
-    
+
     for(var i=0; i < this.deck.cartes.length; i++) {
 	if (this.deck.cartes[i].couleur == couleur) {
 	    this.deck.cartes[i].transformerEnAtout();
@@ -222,7 +222,7 @@ Table.prototype.distributionDeuxiemeTour = function() {
 	i++;
 	if (i == 4)
 	    i = 0;
-	
+
 	if (this.joueurs[i].aPris) {
 	    this.donnerCarte(this.joueurs[i], 2);
 	}
@@ -233,7 +233,7 @@ Table.prototype.distributionDeuxiemeTour = function() {
 
     this.index_distributeur++;
     if (this.index_distributeur == 4)
-	this.index_distributeur = 0; 
+	this.index_distributeur = 0;
 };
 
 Table.prototype.getMaitre = function() {
@@ -254,7 +254,7 @@ Table.prototype.getMaitre = function() {
 
 		else if (this.cartes[i].valeur > atoutMax.valeur)
 		    atoutMax = this.cartes[i];
-		
+
 	    }
 	}
 
@@ -269,7 +269,7 @@ Table.prototype.getMaitre = function() {
 
 		else if (this.cartes[i].valeur > carteMax.valeur)
 		    carteMax = this.cartes[i];
-		
+
 	    }
 	}
 
@@ -285,7 +285,7 @@ Table.prototype.cartePeutEtreJouee = function(carte) {
 	if (this.getMaitre().equipe == carte.joueur.equipe)
 	    // Le partenaire est maître
 	    return true;
-	
+
 	if (carte.atout)
 	    return true;
 

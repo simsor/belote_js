@@ -105,6 +105,11 @@ body {
   bottom : 0;
   left : 40%;
 }
+#centre {
+  position : absolute;
+  bottom : 50vh;
+  left : 40%;
+}
 .jeu-joueur{
   text-align : center;
 }
@@ -118,6 +123,7 @@ body {
 }
 .carte {
   width: 50px;
+  position: relative;
 }
 .rotate {
   transform: rotate(90deg);
@@ -127,6 +133,8 @@ body {
 .pseudo {
   text-align: center;
 }
+
+
 </style>
 <body>
   <div id="tapis">
@@ -141,6 +149,9 @@ body {
     </div>
     <div id="bas" class="tapis-vertical">
       <div class="jeu-joueur"></div>
+    </div>
+    <div id="centre" class="tapis-vertical">
+      <div class="jeu-tapis"></div>
     </div>
   </div>
 </body>
@@ -163,8 +174,53 @@ body {
   });
   $("#gauche").prepend("<p class='pseudo'>"+joueur3.pseudo+"</p>");
   $.each(  joueur4.main, function() {
-    $("#bas .jeu-joueur").append("<img class='carte' src='jeu_de_carte/png/dos_de_carte.png' alt='dos de carte' />");
+    var name = this.nom+"_de_"+this.couleur;
+    $("#bas .jeu-joueur").append("<img class='carte' src='jeu_de_carte/png/"+name+".png' alt='"+name+"' />");
     $('#bas .jeu-joueur').addClass("vertical");
   });
   $("#bas").prepend("<p class='pseudo'>"+joueur4.pseudo+"</p>");
+  $('#bas .carte').mouseenter(function(){
+    $(this).addClass("Selected");
+    $(this).animate({
+      width: "80px"
+    }, 200 );
+
+    //début de l'animation
+    $(".Selected").click(function(){
+      $(this).animate({
+        position: 'absolute',
+        bottom : '50vh'
+      }, 500 ).queue(function(){
+          var element = $(this);
+          //changement de block
+          element.detach();
+          $('#centre .jeu-tapis').append(element);
+          element.css('position','relative');
+          element.css('bottom','0');
+          //deuxième animation
+          element.animate({
+            width: "50px"
+          }, 250 );
+        });
+    });
+  });
+  $('#bas .carte').mouseout(function(){
+    $(this).animate({
+      width: "50px"
+    }, 200 );
+    $(this).removeClass('Selected');
+  });
+
+  function ramasserPli(direction){
+    alert("On rammasse!");
+    $('#centre .jeu-tapis .carte').animate({
+        position : "absolute"
+      }, 1200 );
+  }
+  $("#haut").click(function(){
+    ramasserPli("haut");
+    });
+
+
+
 </script>
