@@ -4,6 +4,7 @@ var JeuController = require('./../controllers/JeuController');
 module.exports = function(app){
 
     app.get("/recupererEtatJeu", JeuController.RetournerEtat);
-    app.get("/rejoindreJeu", JeuController.AjouterJoueur);
+    
+    app.post("/rejoindreJeu", JeuController.AjouterJoueur);
 
 };
