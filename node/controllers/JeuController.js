@@ -61,21 +61,81 @@ module.exports.RetournerEtat = function(request, response){
     }
 };
 
+function finDuTour() {
+    var joueur_victoire = table.getMaitre();
+    var equipe_victoire = joueur_victoire.equipe;
+    equipe_victoire.prendrePli(table);
+
+    if (joueur[0].main.length == 0) {
+	// Alors la manche est finie !
+	console.log("Fin de la manche");
+	finDeLaManche();
+    }
+}
+
+function finDeLaManche() {
+    // On va calculer les scores de chaque équipe
+    var score_e1 = equipe1.calculerScore();
+    var score_e2 = equipe2.calculerScore();
+
+    // On vérifie les capots
+    if (equipe1.cartes_gagnees.length == 0) {
+	// Equipe 1 capot
+	score_e2 = 250;
+	score_e1 = 0;
+    }
+    else if (equipe2.cartes_gagnees.length == 0) {
+	// Equipe 2 capot
+	score_e1 = 250;
+	score_e2 = 0;
+    }
+    else {
+	// On traite les dedans
+	if (equipe1.aPris()) {
+	    if (score_e1 < 80) {
+		// Equipe 1 dedans
+		score_e2 = 160;
+	    }
+	}
+	else if (equipe2.aPris()) {
+	    if (score_e2 < 80) {
+		// Equipe 2 dedans
+		score_e1 = 160;
+	    }
+	}
+	// Else : Tout est OK, pas de cas particulier
+    }
+
+    equipe1.score += score_e1;
+    equipe2.score += score_e2;
+
+    // Enfin, on passe la main au joueur suivant
+    if (table.index_distributeur == 3)
+	table.index_distributeur = 0;
+    else
+	table.index_distributeur += 1;
+
+    
+    table.deck = equipe1.cartes_gagnees.concat(equipe2.cartes_gagnees);
+    table.deck.couper();
+    
+    // On repasse état à tour1
+    etat = "tour1";
+}
+
 module.exports.JouerCarte = function(request, response) {
     if (joueurs.length < 4) {
 	response.end("{ error: 'Pas assez de joueurs' }");
+    }
+    else if (etat != "manche") {
+	response.end("{ error: 'Pas le moment pour ca' }");
     }
     else {
 	var carte = module_cycle.retrocycle(JSON.parse(request.body.carte));
 	var pseudo = request.body.pseudo;
 	var joueur = undefined;
 	// On cherche le joueur correspondant au pseudo
-	for(var i=0; i < joueurs.length; i++) {
-	    if (joueurs[i].pseudo == pseudo) {
-		joueur = joueurs[i];
-		break;
-	    }
-	}
+	joueur = joueurParPseudo(pseudo);
 
 	if (table.joueurs[table.indice_joueur_courant].pseudo == joueur.pseudo) {
 	    // On cherche la carte dans la main du joueur
@@ -91,6 +151,12 @@ module.exports.JouerCarte = function(request, response) {
 		if (table.cartePeutEtreJouee(carte_serveur)) {
 		    table.tapis.push(carte_serveur);
 		    response.end("{ succes: 'Carte jouée' }");
+
+		    // La carte a été jouée, on vérifie si le tour est fini
+		    if (table.tapis.length == 4) {
+			console.log("Fin du tour");
+			finDuTour();
+		    }
 		}
 		else {
 		    response.end("{ error: 'Cette carte ne peut pas être jouée' }");

@@ -161,7 +161,7 @@ module.exports.Table = function (deck) {
     this.couleur_demandee = undefined;
 
     this.index_distributeur = getRandomInt(0, 3);
-    this.index_joueur_courant = (this.index_distributeur == 3) ? 0 : this.index_distributeur;
+    this.index_joueur_courant = (this.index_distributeur == 3) ? 0 : this.index_distributeur+1;
 };
 
 module.exports.Table.prototype.donnerCarte = function(joueur, nombre) {
