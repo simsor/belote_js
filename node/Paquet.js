@@ -1,3 +1,5 @@
+var fs = require("fs");
+
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
@@ -102,6 +104,18 @@ module.exports.Deck.prototype.couper = function() {
 //     });
 // };
 
+module.exports.Deck.prototype.recupererFichierJSON = function(parametres, tableau, couleur) {
+    var cartes = JSON.parse(fs.readFileSync(parametres["modelCarte"]));
+    for(var i=0; i < cartes.length; i++) {
+	var carte = new module.exports.Carte();
+	carte.couleur = couleur;
+	carte.nom = cartes[i].nom;
+	carte.valeur = cartes[i].valeur;
+	//ajoute au tableau de cartes
+	tableau.push(carte);
+    }
+};
+
 module.exports.Deck.prototype.genererDepuisFichier = function(fichier) {
     var couleurs = ["Coeur", "Pique", "Trèfle", "Carreau"];
     for(var i = 0; i< couleurs.length; i++) {
@@ -148,7 +162,7 @@ module.exports.Table = function (deck) {
 
     this.index_distributeur = getRandomInt(0, 3);
     this.index_joueur_courant = (this.index_distributeur == 3) ? 0 : this.index_distributeur;
-}
+};
 
 module.exports.Table.prototype.donnerCarte = function(joueur, nombre) {
     nombre = nombre || 1;

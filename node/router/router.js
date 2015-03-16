@@ -6,5 +6,5 @@ module.exports = function(app){
     app.get("/recupererEtatJeu", JeuController.RetournerEtat);
     
     app.post("/rejoindreJeu", JeuController.AjouterJoueur);
-
+    app.post("/prendreCarte", JeuController.PrendreCarte);
 };
