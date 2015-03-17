@@ -29,10 +29,6 @@ module.exports.Carte.prototype.transformerEnAtout = function() {
     this.atout = true;
 };
 
-module.exports.Carte.prototype.testerMachin = function() {
-    return "SALUT";
-};
-
 /*
  * Classe représentant un deck de cartes
  */
@@ -117,7 +113,7 @@ module.exports.Deck.prototype.recupererFichierJSON = function(parametres, tablea
 };
 
 module.exports.Deck.prototype.genererDepuisFichier = function(fichier) {
-    var couleurs = ["Coeur", "Pique", "Trèfle", "Carreau"];
+    var couleurs = ["Coeur", "Pique", "Trefle", "Carreau"];
     for(var i = 0; i< couleurs.length; i++) {
 	this.recupererFichierJSON({
 	    "modelCarte": fichier,

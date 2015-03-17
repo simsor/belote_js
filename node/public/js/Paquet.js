@@ -43,10 +43,6 @@ Carte.prototype.transformerEnAtout = function() {
     this.atout = true;
 };
 
-Carte.prototype.testerMachin = function() {
-    return "SALUT";
-};
-
 /*
  * Classe représentant un deck de cartes
  */

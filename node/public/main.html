@@ -37,6 +37,7 @@ function rafraichirPartie() {
 	}
 	else {
 	    var equipes = resultat.equipes;
+	    AfficherLesCartesSurTapis(equipes[0], equipes[1]);
 	}
     });
 }
@@ -131,7 +132,7 @@ function AfficherLesCartesSurTapis(equipe1,equipe2){
   var joueurBas;
   var autreJoueurs = [];
   $.each(equipe1.joueurs,function(){
-    if(this.pseudo == joueur_pseudo){
+    if(this.pseudo == pseudo_joueur){
       joueurBas = this;
     } else {
       autreJoueurs.push(this);
@@ -139,38 +140,43 @@ function AfficherLesCartesSurTapis(equipe1,equipe2){
   });
 
   $.each(equipe2.joueurs,function(){
-    if(this.pseudo == joueur_pseudo){
+    if(this.pseudo == pseudo_joueur){
       joueurBas = this;
     } else {
       autreJoueurs.push(this);
     }
   });
 
+    $(".jeu-joueur").each(function() {
+	$(this).empty();
+	$(this).parent().find(".pseudo").remove();
+    });
+    
   //joueur 1 equipe 1
   $.each(autreJoueurs[0].main, function() {
     $("#haut .jeu-joueur").append("<img  class='carte' src='/image/jeu_de_carte/png/dos_de_carte.png' alt='dos de carte' />");
     $('#haut .jeu-joueur').addClass("vertical");
     });
-  $("#haut").append("<p class='pseudo'>"+joueur1.pseudo+"</p>");
+  $("#haut").append("<p class='pseudo'>"+autreJoueurs[0].pseudo+"</p>");
   //joueur 2 equipe 2
   $.each(autreJoueurs[1].main, function() {
     $("#droite .jeu-joueur").append("<img   class='carte rotate' src='/image/jeu_de_carte/png/dos_de_carte.png' alt='dos de carte' />");
     $('#droite .jeu-joueur').addClass("horizontal");
   });
-  $("#droite").prepend("<p class='pseudo'>"+joueur2.pseudo+"</p>");
+  $("#droite").prepend("<p class='pseudo'>"+autreJoueurs[1].pseudo+"</p>");
   //Joueur 3 equipe 2
-  $.each(autreJoueurs2[1].main, function() {
+  $.each(autreJoueurs[2].main, function() {
     $("#gauche .jeu-joueur").append("<img  class='carte rotate' src='/image/jeu_de_carte/png/dos_de_carte.png' alt='dos de carte' />");
     $('#gauche .jeu-joueur').addClass("horizontal");
   });
-  $("#gauche").prepend("<p class='pseudo'>"+joueur3.pseudo+"</p>");
+  $("#gauche").prepend("<p class='pseudo'>"+autreJoueurs[2].pseudo+"</p>");
   //joueur 4 equipe 1
   $.each(joueurBas.main, function() {
     var name = this.nom+"_de_"+this.couleur;
     $("#bas .jeu-joueur").append("<img class='carte' src='/image/jeu_de_carte/png/"+name+".png' alt='"+name+"' />");
     $('#bas .jeu-joueur').addClass("vertical");
   });
-  $("#bas").prepend("<p class='pseudo'>"+joueur4.pseudo+"</p>");
+  $("#bas").prepend("<p class='pseudo'>"+joueurBas.pseudo+"</p>");
 
   //evenement des cartes
   $('#bas .carte').mouseenter(function(){
@@ -213,9 +219,8 @@ function AfficherLesCartesSurTapis(equipe1,equipe2){
     });
     element.css({width : "100px"});
   });
-};
-  AfficherLesCartesSurTapis();
-
+}
+    
   // Rammasage
   function ramasserPli(direction){
     $('#centre .jeu-tapis .carte').animate({
