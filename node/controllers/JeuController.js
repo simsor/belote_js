@@ -331,10 +331,28 @@ module.exports.PasserCarte = function(request, response) {
 		else
 		    table.index_joueur_courant += 1;
 
-		if (table.index_joueur_courant == table.index_distributeur + 1) {
+		if (table.index_joueur_courant == table.index_distributeur + 1 && etape == "tour1") {
 		    // Alors on a fait un tour complet, on passe au tour 2
 		    etape = "tour2";
 		}
+		else if (table.index_joueur_courant == table.index_distributeur + 1 && etape == "tour2") {
+		    // Alors fin du deuxième tour sans que personne ne prenne.
+		    etape = "tour1";
+
+		    table.deck.cartes.push(table.carte_retournee); // On la remet dans le paquet
+		    for(var i=0; i < joueurs.length; i++) {
+			table.deck.cartes = table.deck.cartes.concat(joueurs[i].main); // On remet la main du joueur dans le paquet
+			joueurs[i].main.length = 0; // On vide sa main
+		    }
+
+		    table.deck.couper();
+		    lancerNouvellePartie();
+		}
+
+		response.end(JSON.stringify({success: "Carte passée"}));
+	    }
+	    else {
+		response.end(JSON.stringify({error:"Ce n'est pas votre tour."}));
 	    }
 	}
     }

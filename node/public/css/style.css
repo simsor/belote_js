@@ -74,6 +74,20 @@ body {
     color : yellow;
 }
 
+.gris {
+    color: darkgrey;
+    background-color: darkgreen;
+}
+
+.blanc {
+    color: white;
+}
+
+.bleu-fonce {
+    color: blue;
+    background-color: grey;
+}
+
 .pseudo-actuel::before {
     content : "=> ";
 }

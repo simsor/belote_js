@@ -142,11 +142,11 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
 	$('#haut .jeu-joueur').addClass("vertical");
     });
     if (joueurHaut.pseudo == joueur_actuel) {
-	$("#haut").append("<p class='pseudo pseudo-actuel jaune'>"+joueurHaut.pseudo+"</p>");
-	$('#pastille').css({"background-color": "yellow"});
+	$("#haut").append("<p class='pseudo pseudo-actuel gris'>"+joueurHaut.pseudo+" (Score : " + joueurHaut.equipe.score + ")</p>");
+	$('#pastille').css({"background-color": "darkgrey"});
     }
     else
-	$("#haut").append("<p class='pseudo jaune'>"+joueurHaut.pseudo+"</p>");
+	$("#haut").append("<p class='pseudo gris'>"+joueurHaut.pseudo + " (Score : " + joueurHaut.equipe.score + ")</p>");
 
     //joueur DROITE
     $.each(autreJoueurs[0].main, function() {
@@ -166,11 +166,11 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
 	$('#gauche .jeu-joueur').addClass("horizontal");
     });
     if (autreJoueurs[1].pseudo == joueur_actuel) {
-	$("#gauche").append("<p class='pseudo pseudo-actuel rouge'>"+autreJoueurs[1].pseudo+"</p>");
-	$('#pastille').css({"background-color": "red"});
+	$("#gauche").append("<p class='pseudo pseudo-actuel bleu-fonce'>"+autreJoueurs[1].pseudo+" (Score : " + autreJoueurs[1].equipe.score + ")</p>");
+	$('#pastille').css({"background-color": "blue"});
     }
     else
-	$("#gauche").append("<p class='pseudo rouge'>"+autreJoueurs[1].pseudo+"</p>");
+	$("#gauche").append("<p class='pseudo bleu-fonce'>"+autreJoueurs[1].pseudo+" (Score : " + autreJoueurs[1].equipe.score + ")</p>");
 
     //joueur 4 equipe 1 (NOUS)
     $.each(joueurBas.main, function() {
@@ -179,8 +179,8 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
 	$('#bas .jeu-joueur').addClass("vertical");
     });
     if (joueurBas.pseudo == joueur_actuel) {
-	$("#bas").append("<p class='pseudo pseudo-actuel vert'>"+joueurBas.pseudo+" (Atout : " + atout + ")</p>");
-	$('#pastille').css({"background-color": "green"});
+	$("#bas").append("<p class='pseudo pseudo-actuel blanc'>"+joueurBas.pseudo+" (Atout : " + atout + ")</p>");
+	$('#pastille').css({"background-color": "white"});
 	if (carte_retournee != undefined) {
 	    // On affiche les boutons pour prendre / passer
 	    if (etape == "tour1") {
@@ -238,7 +238,7 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
 	}
     }
     else
-	$("#bas").append("<p class='pseudo vert'>"+joueurBas.pseudo+" (Atout : " + atout + ")</p>");
+	$("#bas").append("<p class='pseudo blanc'>"+joueurBas.pseudo+" (Atout : " + atout + ")</p>");
 
     if (carte_retournee != undefined) {
 	var name = carte_retournee.nom+"_de_"+carte_retournee.couleur;
@@ -341,8 +341,4 @@ function ramasserPli(direction){
     });
 
 };
-
-$("#haut").click(function(){
-    ramasserPli("left");
-});
 </script>
