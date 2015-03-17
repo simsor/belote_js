@@ -15,6 +15,7 @@
 		var joueur_actuel;
 		var etape = "tour1";
 		var tapis = [];
+		var atout = undefined;
 
 		if (!pseudo_joueur) {
 			window.location.href = "http://www.google.fr";
@@ -45,6 +46,7 @@
 					joueur_actuel = resultat.joueurActuel;
 					etape = resultat.etape;
 					tapis = resultat.tapis;
+					atout = resultat.atout;
 					AfficherLesCartesSurTapis(equipes[0], equipes[1]);
 				}
 			});
@@ -210,7 +212,7 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
 		$('#bas .jeu-joueur').addClass("vertical");
 	});
 	if (joueurBas.pseudo == joueur_actuel) {
-		$("#bas").append("<p class='pseudo pseudo-actuel'>"+joueurBas.pseudo+"</p>");
+		$("#bas").append("<p class='pseudo pseudo-actuel'>"+joueurBas.pseudo+" (Atout : " + atout + ")</p>");
 		if (carte_retournee != undefined) {
 			// On affiche les boutons pour prendre / passer
 			$("#bas").append("<button id='prendre'>Prendre</button>");
@@ -251,10 +253,23 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
 		}
 	}
 	else
-		$("#bas").append("<p class='pseudo'>"+joueurBas.pseudo+"</p>");
+		$("#bas").append("<p class='pseudo'>"+joueurBas.pseudo+" (Atout : " + atout + ")</p>");
 
 	if (carte_retournee != undefined) {
 		var name = carte_retournee.nom+"_de_"+carte_retournee.couleur;
+		var element = $("#centre .jeu-tapis");
+		element.append("<img class='carte' src='/image/jeu_de_carte/png/"+ name + ".png' />");
+		element.find("img").css('position','relative');
+		element.find("img").css('bottom','0');
+		//deuxième animation
+		element.find("img").css({
+			width: "100px"
+		});
+	}
+
+	// On remplit le tapis
+	for(var i=0; i < tapis.length; i++) {
+		var name = tapis[i].nom+"_de_"+tapis[i].couleur;
 		var element = $("#centre .jeu-tapis");
 		element.append("<img class='carte' src='/image/jeu_de_carte/png/"+ name + ".png' />");
 		element.find("img").css('position','relative');

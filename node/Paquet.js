@@ -202,6 +202,7 @@ module.exports.Table.prototype.fairePrendre = function(joueur, deuxiemeTour, cou
 
     joueur.aPris = true;
     joueur.main.push(this.carte_retournee);
+    this.carte_retournee.joueur = joueur;
 
     if (deuxiemeTour) {
 	this.setAtout(couleurChoisie);
@@ -253,8 +254,8 @@ module.exports.Table.prototype.distributionDeuxiemeTour = function() {
 
 module.exports.Table.prototype.getMaitre = function() {
     var atoutPresent = false;
-    for(var i=0; i < this.deck.cartes.length; i++) {
-	if (this.deck.cartes[i].atout) {
+    for(var i=0; i < this.tapis.length; i++) {
+	if (this.tapis[i].atout) {
 	    atoutPresent = true;
 	    break;
 	}
@@ -262,13 +263,13 @@ module.exports.Table.prototype.getMaitre = function() {
 
     if(atoutPresent) {
 	var atoutMax = undefined;
-	for(var i=0; i < this.cartes.length; i++) {
-	    if (this.deck.cartes[i].atout) {
+	for(var i=0; i < this.tapis.length; i++) {
+	    if (this.tapis[i].atout) {
 		if (atoutMax == undefined)
-		    atoutMax = this.cartes[i];
+		    atoutMax = this.tapis[i];
 
-		else if (this.deck.cartes[i].valeur > atoutMax.valeur)
-		    atoutMax = this.deck.cartes[i];
+		else if (this.tapis[i].valeur > atoutMax.valeur)
+		    atoutMax = this.tapis[i];
 		
 	    }
 	}
@@ -277,13 +278,13 @@ module.exports.Table.prototype.getMaitre = function() {
     }
     else {
 	var carteMax = undefined;
-	for(var i=0; i < this.deck.cartes.length; i++) {
-	    if (this.deck.cartes[i].couleur == this.couleur_demandee) {
+	for(var i=0; i < this.tapis.length; i++) {
+	    if (this.tapis[i].couleur == this.couleur_demandee) {
 		if (carteMax == undefined)
-		    carteMax = this.deck.cartes[i];
+		    carteMax = this.tapis[i];
 
-		else if (this.deck.cartes[i].valeur > carteMax.valeur)
-		    carteMax = this.deck.cartes[i];
+		else if (this.tapis[i].valeur > carteMax.valeur)
+		    carteMax = this.tapis[i];
 		
 	    }
 	}
@@ -294,7 +295,7 @@ module.exports.Table.prototype.getMaitre = function() {
     }
 };
 
-module.exports.Table.prototype.cartePeutEtreJouee = function(carte) {
+module.exports.Table.prototype.cartePeutEtreJouee = function(carte) {    
     if (this.tapis.length == 0)
 	return true;
     

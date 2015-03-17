@@ -74,7 +74,14 @@ function finDuTour() {
     var equipe_victoire = joueur_victoire.equipe;
     equipe_victoire.prendrePli(table);
 
-    if (joueur[0].main.length == 0) {
+    for(var i=0; i < joueurs.length; i++) {
+	if (joueurs[i].pseudo == joueur_victoire.pseudo) {
+	    table.index_joueur_courant = i;
+	    break;
+	}
+    }
+
+    if (joueurs[0].main.length == 0) {
 	// Alors la manche est finie !
 	console.log("Fin de la manche");
 	finDeLaManche();
@@ -169,6 +176,10 @@ module.exports.JouerCarte = function(request, response) {
 			    break;
 			}
 		    }
+
+		    if (table.tapis.length == 1) // c'était la première carte
+			table.couleur_demandee = carte_serveur.couleur;
+		    
 		    response.end(JSON.stringify({ success: 'Carte jouée' }));
 
 		    // On passe au joueur suivant
