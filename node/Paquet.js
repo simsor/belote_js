@@ -29,6 +29,20 @@ module.exports.Carte.prototype.transformerEnAtout = function() {
     this.atout = true;
 };
 
+module.exports.Carte.prototype.transformerEnNonAtout = function() {
+    switch(this.nom) {
+    case "9":
+	this.valeur = 0;
+	break;
+
+    case "Valet":
+	this.valeur = 2;
+	break;
+    }
+
+    this.atout = false;
+};
+
 /*
  * Classe représentant un deck de cartes
  */
@@ -232,6 +246,18 @@ module.exports.Table.prototype.setAtout = function(couleur) {
     }
 };
 
+module.exports.Table.prototype.unsetAtout = function() {
+    for(var i=0; i < this.deck.cartes.length; i++) {
+	this.deck.cartes[i].transformerEnNonAtout(); 
+    }
+
+    for (var i=0; i < this.joueurs.length; i++) {
+	for(var j=0; j < this.joueurs[i].main.length; j++) {
+	    this.joueurs[i].main[j].transformerEnNonAtout();
+	}
+    }
+};
+
 module.exports.Table.prototype.distributionDeuxiemeTour = function() {
     var i = this.index_distributeur;
     do {
@@ -288,10 +314,15 @@ module.exports.Table.prototype.getMaitre = function() {
 		
 	    }
 	}
-	if (carteMax == undefined)
+	
+	if (carteMax == undefined) {
+	    console.log("Carte max undefined");
 	    return undefined;
-	else
+	}
+	else {
+	    console.log("Carte max : " + carteMax.nom + " de " + carteMax.couleur);
 	    return carteMax.joueur;
+	}
     }
 };
 

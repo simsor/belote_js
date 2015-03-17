@@ -107,15 +107,17 @@ function finDeLaManche() {
     else {
 	// On traite les dedans
 	if (equipe1.aPris()) {
-	    if (score_e1 < 80) {
+	    if (score_e1 <= 80) {
 		// Equipe 1 dedans
 		score_e2 = 160;
+		score_e1 = 0;
 	    }
 	}
 	else if (equipe2.aPris()) {
-	    if (score_e2 < 80) {
+	    if (score_e2 <= 80) {
 		// Equipe 2 dedans
 		score_e1 = 160;
+		score_e2 = 0;
 	    }
 	}
 	// Else : Tout est OK, pas de cas particulier
@@ -130,9 +132,13 @@ function finDeLaManche() {
     else
 	table.index_distributeur += 1;
 
+    table.index_joueur_courant = table.index_distributeur;
+
     
-    table.deck = equipe1.cartes_gagnees.concat(equipe2.cartes_gagnees);
+    table.deck.cartes = equipe1.cartes_gagnees.concat(equipe2.cartes_gagnees);
+    console.log("Taille du deck : " + table.deck.cartes.length);
     table.deck.couper();
+    console.log("Taille du deck après coupe : " + table.deck.cartes.length);
     
     // On repasse étape à tour1
     etape = "tour1";
@@ -209,10 +215,17 @@ module.exports.JouerCarte = function(request, response) {
 };
 
 function lancerNouvellePartie() {
-    table.deck.melanger();
+    equipe1.cartes_gagnees.length = 0;
+    equipe2.cartes_gagnees.length = 0;
+
+    table.unsetAtout();
+    table.atout = undefined;
+    
     table.distributionInitiale();
     table.retourner();
     etape="tour1";
+
+    console.log("Nombre de joueurs : " + joueurs.length);
 }
 
 module.exports.AjouterJoueur = function(request, response) {
@@ -251,6 +264,7 @@ module.exports.AjouterJoueur = function(request, response) {
 
     if (ancienne_longueur == 3 && joueurs.length == 4) {
 	console.log("On lance la partie");
+	table.deck.melanger();
 	lancerNouvellePartie();
     }
 };
@@ -259,7 +273,7 @@ module.exports.PrendreCarte = function(request, response) {
     var pseudo = request.body.pseudo;
 
     if (joueurs.length < 4) {
-	response.end(JSON.stringify({ error: "La partie n'a pas commencé" }));
+	response.end(JSON.stringify({ error: "La partie n'a pas commencé, " + joueurs.length + " joueurs" }));
     }
     else {
 	console.log(pseudo);
@@ -275,12 +289,14 @@ module.exports.PrendreCarte = function(request, response) {
 		    table.fairePrendre(joueur, false);
 		    table.distributionDeuxiemeTour();
 		    etape = "manche";
+		    response.end(JSON.stringify({success: "Tour 1 fini"}));
 		}
 		else if (etape == "tour2") {
 		    var couleur = request.body.couleur;
 		    table.fairePrendre(joueur, true, couleur);
 		    table.distributionDeuxiemeTour();
 		    etape = "manche";
+		    response.end(JSON.stringify({success: "Tour 2 fini"}));
 		}
 		else {
 		    response.end(JSON.stringify({ error: 'WTF' }));
@@ -314,6 +330,11 @@ module.exports.PasserCarte = function(request, response) {
 		    table.index_joueur_courant = 0;
 		else
 		    table.index_joueur_courant += 1;
+
+		if (table.index_joueur_courant == table.index_distributeur + 1) {
+		    // Alors on a fait un tour complet, on passe au tour 2
+		    etape = "tour2";
+		}
 	    }
 	}
     }
