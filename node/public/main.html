@@ -18,60 +18,64 @@
 	var atout = undefined;
 	var update_en_cours = false;
 	var travail_en_cours = false;
+	var bouton_ajoute = false;
 	$(function(){
 
-	if (!pseudo_joueur) {
-	    window.location.href = "http://www.google.fr";
-	}
-
-	$.post("/rejoindreJeu", { pseudo: pseudo_joueur }, function(data) {
-	    var resultat = JSON.parse(data);
-
-	    if (resultat.error) {
-		alert("Erreur : " + resultat.error);
+	    if (!pseudo_joueur) {
+		window.location.href = "http://www.google.fr";
 	    }
-	    else {
-		equipe_joueur = resultat.equipe;
-		$('body').append("<button id='quitter_partie'>Quitter la partie</button>");
-		setInterval(rafraichirPartie, 1000);
+
+	    $.post("/rejoindreJeu", { pseudo: pseudo_joueur }, function(data) {
+		var resultat = JSON.parse(data);
+
+		if (resultat.error) {
+		    alert("Erreur : " + resultat.error);
+		}
+		else {
+		    equipe_joueur = resultat.equipe;
+		    setInterval(rafraichirPartie, 1000);
+		}
+	    });
+
+	    function rafraichirPartie() {
+		if (!update_en_cours) {
+		    update_en_cours = true;
+		    $.get("/recupererEtatJeu", function(data) {
+			var resultat = JSON.retrocycle(JSON.parse(data));
+
+			if (resultat.error) {
+			    console.log("On attend");
+			    $("#message").empty();
+			    $("#message").append("<p>attente des joueurs ...</p>");
+			}
+			else {
+			    if (!bouton_ajoute) {
+				$('body').append("<button id='quitter_partie'>Quitter la partie</button>");
+				bouton_ajoute = true;
+				//quitter la partie de la belotte
+				$("#quitter_partie").click(function(){
+				    $.post("/arreterPartie", function(data) {
+
+					if (resultat.error) {
+					    alert("Erreur : " + resultat.error);
+					}
+				    });
+				});
+			    }
+
+			    var equipes = resultat.equipes;
+			    carte_retournee = resultat.carte_retournee;
+			    joueur_actuel = resultat.joueurActuel;
+			    etape = resultat.etape;
+			    tapis = resultat.tapis;
+			    atout = (resultat.atout==undefined) ? "?" : resultat.atout;
+			    AfficherLesCartesSurTapis(equipes[0], equipes[1]);
+			}
+			update_en_cours = false;
+		    });
+		}
 	    }
 	});
-
-	function rafraichirPartie() {
-	    if (!update_en_cours) {
-		update_en_cours = true;
-		$.get("/recupererEtatJeu", function(data) {
-		    var resultat = JSON.retrocycle(JSON.parse(data));
-
-		    if (resultat.error) {
-			console.log("On attend");
-			$("#message").empty();
-			$("#message").append("<p>attente des joueurs ...</p>");
-		    }
-		    else {
-			var equipes = resultat.equipes;
-			carte_retournee = resultat.carte_retournee;
-			joueur_actuel = resultat.joueurActuel;
-			etape = resultat.etape;
-			tapis = resultat.tapis;
-			atout = (resultat.atout==undefined) ? "?" : resultat.atout;
-			AfficherLesCartesSurTapis(equipes[0], equipes[1]);
-		    }
-		    update_en_cours = false;
-		});
-	    }
-	}
-
-	//quitter la partie de la belotte
-	$("#quitter_partie").click(function(){
-		$.post("/arreterPartie", function(data) {
-
-		    if (resultat.error) {
-					alert("Erreur : " + resultat.error);
-		    }
-		});
-	});
-});
 	</script>
 	<link rel="stylesheet" href="/css/style.css" />
 	<body>
@@ -152,14 +156,14 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
     $(".jeu-tapis").empty();
 
     // On enlève les boutons
-    $("button").remove();
+    $("button").not("#quitter_partie").remove();
 
-		$("#message").empty();
-		if(pseudo_joueur == joueur_actuel){
-			$("#message").append("<p>c'est à votre tour .</p>");
-		} else {
-			$("#message").append("<p>c'est au tour de "+joueur_actuel+" .</p>");
-		}
+    $("#message").empty();
+    if(pseudo_joueur == joueur_actuel){
+	$("#message").append("<p>c'est à votre tour .</p>");
+    } else {
+	$("#message").append("<p>c'est au tour de "+joueur_actuel+" .</p>");
+    }
 
     //joueur HAUT (ami)
     $.each(joueurHaut.main, function() {
