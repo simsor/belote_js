@@ -13,6 +13,7 @@
 <style>
 body {
   overflow : hidden;
+  background-image : url('bois_table.jpg');
 }
 #tapis {
   height: 100vh;
@@ -94,7 +95,7 @@ body {
 </body>
 </html>
 <script>
-
+function AfficherLesCartesSurTapis(){
   $.each(  joueur1.main, function() {
     $("#haut .jeu-joueur").append("<img  class='carte' src='jeu_de_carte/png/dos_de_carte.png' alt='dos de carte' />");
     $('#haut .jeu-joueur').addClass("vertical");
@@ -157,7 +158,8 @@ body {
       element.css({width : "100px"});
     });
   });
-
+};
+  AfficherLesCartesSurTapis();
 
   // Rammasage
   function ramasserPli(direction){
@@ -180,7 +182,4 @@ body {
   $("#haut").click(function(){
       ramasserPli("left");
     });
-
-
-
 </script>
