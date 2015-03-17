@@ -13,6 +13,8 @@
 		var equipe_joueur = -1;
 		var carte_retournee = undefined;
 		var joueur_actuel;
+		var etape = "tour1";
+		var tapis = [];
 
 		if (!pseudo_joueur) {
 			window.location.href = "http://www.google.fr";
@@ -41,6 +43,8 @@
 					var equipes = resultat.equipes;
 					carte_retournee = resultat.carte_retournee;
 					joueur_actuel = resultat.joueurActuel;
+					etape = resultat.etape;
+					tapis = resultat.tapis;
 					AfficherLesCartesSurTapis(equipes[0], equipes[1]);
 				}
 			});

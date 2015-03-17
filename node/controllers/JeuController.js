@@ -18,6 +18,13 @@ Object.castTableau = function(tab, constructor) {
     return tab;
 };
 
+// Array Remove - By John Resig (MIT Licensed)
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
+
 // Liste des objets utiles pour la partie
 var joueurs = [];
 
@@ -155,7 +162,20 @@ module.exports.JouerCarte = function(request, response) {
 		
 		if (table.cartePeutEtreJouee(carte_serveur)) {
 		    table.tapis.push(carte_serveur);
+		    for(var i=0; i< joueur.main.length; i++) {
+			if (carte_serveur.couleur == joueur.main[i].couleur &&
+			    carte_serveur.valeur == joueur.main[i].valeur) {
+			    joueur.main.remove(i);
+			    break;
+			}
+		    }
 		    response.end(JSON.stringify({ success: 'Carte jouée' }));
+
+		    // On passe au joueur suivant
+		    if (table.index_joueur_courant == 3)
+			table.index_joueur_courant = 0;
+		    else
+			table.index_joueur_courant += 1;
 
 		    // La carte a été jouée, on vérifie si le tour est fini
 		    if (table.tapis.length == 4) {
