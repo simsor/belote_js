@@ -50,7 +50,7 @@
 			joueur_actuel = resultat.joueurActuel;
 			etape = resultat.etape;
 			tapis = resultat.tapis;
-			atout = resultat.atout;
+			atout = (resultat.atout==undefined) ? "?" : resultat.atout;
 			AfficherLesCartesSurTapis(equipes[0], equipes[1]);
 		    }
 		    update_en_cours = false;
