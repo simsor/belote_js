@@ -6,72 +6,9 @@
 <script src="jquery-1.11.2.js"></script>
 <script src="Paquet.js"></script>
 <script src="Joueur.js"></script>
+<script src="cycle.js"></script>
 <script type="text/javascript">
 
- var equipe1 = new Equipe(1);
- var equipe2 = new Equipe(2);
-
- var joueur1 = new Joueur("Simon G", equipe1);
- var joueur2 = new Joueur("Tristan", equipe2);
- var joueur3 = new Joueur("Simon C", equipe1);
- var joueur4 = new Joueur("Romain", equipe2);
-
- var deck = new Deck();
- deck.genererDepuisFichier("cartes.json");
- deck.melanger();
-
- var table = new Table(deck);
- table.joueurs.push(joueur1);
- table.joueurs.push(joueur2);
- table.joueurs.push(joueur3);
- table.joueurs.push(joueur4);
-
- table.distributionInitiale();
- table.retourner();
-
- for (var i=0; i < table.joueurs.length; i++) {
-     var texte = table.joueurs[i].pseudo;
-     for (var j=0; j < table.joueurs[i].main.length; j++) {
-	 var carte = table.joueurs[i].main[j];
-	 texte += "\n" + carte.nom + " de " + carte.couleur;
-     }
-     alert(texte);
- }
-
- alert("La carte retournée est : " + table.carte_retournee.nom + " de " + table.carte_retournee.couleur);
-
- for(var i=0; i < table.joueurs.length; i++) {
-     var texte = table.joueurs[i].pseudo + ", prenez-vous ?";
-     var reponse = confirm(texte);
-     if (reponse) {
-	 table.fairePrendre(table.joueurs[i]);
-	 break;
-     }
- }
-
- if (table.atout == undefined) {
-     // Alors personne n'a pris au premier tour
-     // Deuxième tour.
-     for (var i=0; i < table.joueurs.length; i++) {
-	 var choix = prompt(table.joueurs[i].pseudo + ", à quoi prenez-vous ?");
-	 if (choix != "Carreau" && choix != "Trèfle" && choix != "Coeur" && choix != "Pique") {
-	     // Mauvais choix
-	     continue;
-	 }
-	 else {
-	     table.fairePrendre(table.joueurs[i], true, choix);
-	     break;
-	 }
-     }
- }
-
- table.distributionDeuxiemeTour();
-
- for (var i=0; i < table.joueurs.length; i++) {
-     console.log(table.joueurs[i].pseudo);
-     console.log(table.joueurs[i].main);
-     console.log("======================");
- }
 </script>
 <style>
 body {
