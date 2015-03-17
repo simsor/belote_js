@@ -183,12 +183,13 @@ function lancerNouvellePartie() {
 module.exports.AjouterJoueur = function(request, response) {
     var pseudo = request.body.pseudo;
     var equipe = -1;
-    if (equipe1.joueurs.length >= 2) {
-	equipe = 2;
-    }
-    else {
+    if (equipe1.joueurs.length == 0 || (equipe2.joueurs.length == 1 && equipe1.joueurs.length == 1)) {
 	equipe = 1;
     }
+    else {
+	equipe = 2;
+    }
+    console.log(equipe);
     var ancienne_longueur = joueurs.length;
     if (joueurs.length >= 4) {
 	response.end(JSON.stringify({ error: 'Plus de place sur la table' }));
@@ -200,7 +201,7 @@ module.exports.AjouterJoueur = function(request, response) {
 	    joueurs.push(j);
 	    equipe1.joueurs.push(j);
 	    table.joueurs.push(j);
-	    response.end(JSON.stringify({ success: 'Joueur ajouté' }));
+	    response.end(JSON.stringify({ success: 'Joueur ajouté', equipe: equipe }));
 	}
 	else if (equipe == 2 && equipe2.joueurs.length < 2) {
 	    j = new module_joueur.Joueur(pseudo, equipe2);
@@ -214,6 +215,7 @@ module.exports.AjouterJoueur = function(request, response) {
     }
 
     if (ancienne_longueur == 3 && joueurs.length == 4) {
+	console.log("On lance la partie");
 	lancerNouvellePartie();
     }
 };
