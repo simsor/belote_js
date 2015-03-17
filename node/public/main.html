@@ -115,10 +115,36 @@
 			color: lightblue;
 		}
 
-		.pseudo-actuel {
-			color: red !important;
+		.bleu {
+			color : cyan;
+		}
+		.vert {
+			color : green;
+		}
+		.rouge {
+			color : red;
+		}
+		.jaune {
+			color : yellow;
 		}
 
+		.pseudo-actuel::before {
+			content : "=> ";
+		}
+
+		.pseudo-actuel::after {
+			content : " <=";
+		}
+
+		#pastille {
+			width: 50px;
+			height: 50px;
+			background-color: black;
+			border-radius : 100%;
+			position : fixed;
+			bottom : 10px;
+			left:10px;
+		}
 
 		</style>
 		<body>
@@ -137,6 +163,8 @@
 				</div>
 				<div id="centre" class="tapis-vertical">
 					<div class="jeu-tapis"></div>
+				</div>
+				<div id="pastille">
 				</div>
 			</div>
 		</body>
@@ -179,9 +207,10 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
 		$('#haut .jeu-joueur').addClass("vertical");
 	});
 	if (autreJoueurs[0].pseudo == joueur_actuel)
-		$("#haut").append("<p class='pseudo pseudo-actuel'>"+autreJoueurs[0].pseudo+"</p>");
+		$("#haut").append("<p class='pseudo pseudo-actuel jaune'>"+autreJoueurs[0].pseudo+"</p>");
+		$('#pastille').css({"background-color","yellow"});
 	else
-		$("#haut").append("<p class='pseudo'>"+autreJoueurs[0].pseudo+"</p>");
+		$("#haut").append("<p class='pseudo jaune'>"+autreJoueurs[0].pseudo+"</p>");
 
 	//joueur 2 equipe 2
 	$.each(autreJoueurs[1].main, function() {
@@ -189,9 +218,10 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
 		$('#droite .jeu-joueur').addClass("horizontal");
 	});
 	if (autreJoueurs[1].pseudo == joueur_actuel)
-		$("#droite").append("<p class='pseudo pseudo-actuel'>"+autreJoueurs[1].pseudo+"</p>");
+		$("#droite").append("<p class='pseudo pseudo-actuel bleu'>"+autreJoueurs[1].pseudo+"</p>");
+		$('#pastille').css({"background-color","cyan"});
 	else
-		$("#droite").append("<p class='pseudo'>"+autreJoueurs[1].pseudo+"</p>");
+		$("#droite").append("<p class='pseudo bleu'>"+autreJoueurs[1].pseudo+"</p>");
 
 	//Joueur 3 equipe 2
 	$.each(autreJoueurs[2].main, function() {
@@ -199,9 +229,10 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
 		$('#gauche .jeu-joueur').addClass("horizontal");
 	});
 	if (autreJoueurs[2].pseudo == joueur_actuel)
-		$("#gauche").append("<p class='pseudo pseudo-actuel'>"+autreJoueurs[2].pseudo+"</p>");
+		$("#gauche").append("<p class='pseudo pseudo-actuel rouge'>"+autreJoueurs[2].pseudo+"</p>");
+		$('#pastille').css({"background-color","red"});
 	else
-		$("#gauche").append("<p class='pseudo'>"+autreJoueurs[2].pseudo+"</p>");
+		$("#gauche").append("<p class='pseudo rouge'>"+autreJoueurs[2].pseudo+"</p>");
 
 	//joueur 4 equipe 1 (NOUS)
 	$.each(joueurBas.main, function() {
@@ -210,7 +241,8 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
 		$('#bas .jeu-joueur').addClass("vertical");
 	});
 	if (joueurBas.pseudo == joueur_actuel) {
-		$("#bas").append("<p class='pseudo pseudo-actuel'>"+joueurBas.pseudo+"</p>");
+		$("#bas").append("<p class='pseudo pseudo-actuel vert'>"+joueurBas.pseudo+"</p>");
+		$('#pastille').css({"background-color","green"});
 		if (carte_retournee != undefined) {
 			// On affiche les boutons pour prendre / passer
 			$("#bas").append("<button id='prendre'>Prendre</button>");
@@ -235,10 +267,10 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
 			});
 		}
 		if(etape == "tour2"){
-			$("#bas").append("<button class='choix_couleur' id='trefle'>Trèfle</button>");
-			$("#bas").append("<button class='choix_couleur' id='pique'>Pique</button>");
-			$("#bas").append("<button class='choix_couleur' id='carreau'>Carreau</button>");
-			$("#bas").append("<button class='choix_couleur' id='coeur'>Coeur</button>");
+			$("#bas").append("<button class='choix_couleur' id='Trefle'>Trèfle</button>");
+			$("#bas").append("<button class='choix_couleur' id='Pique'>Pique</button>");
+			$("#bas").append("<button class='choix_couleur' id='Carreau'>Carreau</button>");
+			$("#bas").append("<button class='choix_couleur' id='Coeur'>Coeur</button>");
 
 			$("#bas").find(".choix_couleur").click(function() {
 				$.post("/prendreCarte", {pseudo: pseudo_joueur,couleur : this.attr('id')}, function(data) {
@@ -251,7 +283,7 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
 		}
 	}
 	else
-		$("#bas").append("<p class='pseudo'>"+joueurBas.pseudo+"</p>");
+		$("#bas").append("<p class='pseudo vert'>"+joueurBas.pseudo+"</p>");
 
 	if (carte_retournee != undefined) {
 		var name = carte_retournee.nom+"_de_"+carte_retournee.couleur;
