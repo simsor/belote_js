@@ -165,7 +165,7 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
 
 	// On vide le tapis
 	$(".jeu-tapis").empty();
-	
+
 	// On enlève les boutons
 	$("button").remove();
 
@@ -223,6 +223,21 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
 
 			$("#bas").find("#passer").click(function() {
 				$.post("/passerCarte", {pseudo: pseudo_joueur}, function(data) {
+					var resultat = JSON.parse(data);
+
+					if(resultat.error)
+						alert(resultat.error);
+				});
+			});
+		}
+		if(etape == "tour2"){
+			$("#bas").append("<button class='choix_couleur' id='trefle'>Trèfle</button>");
+			$("#bas").append("<button class='choix_couleur' id='pique'>Pique</button>");
+			$("#bas").append("<button class='choix_couleur' id='carreau'>Carreau</button>");
+			$("#bas").append("<button class='choix_couleur' id='coeur'>Coeur</button>");
+
+			$("#bas").find(".choix_couleur").click(function() {
+				$.post("/prendreCarte", {pseudo: pseudo_joueur,couleur : this.attr('id')}, function(data) {
 					var resultat = JSON.parse(data);
 
 					if(resultat.error)
