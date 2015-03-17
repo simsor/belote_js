@@ -84,14 +84,20 @@ function finDuTour() {
     if (joueurs[0].main.length == 0) {
 	// Alors la manche est finie !
 	console.log("Fin de la manche");
-	finDeLaManche();
+	finDeLaManche(equipe_victoire);
     }
 }
 
-function finDeLaManche() {
+function finDeLaManche(equipe_victorieuse) {
     // On va calculer les scores de chaque équipe
     var score_e1 = equipe1.calculerScore();
     var score_e2 = equipe2.calculerScore();
+
+    // Le 10 de der
+    if (equipe_victorieuse.numero == 1)
+	score_e1 += 10;
+    else
+	score_e2 += 10;
 
     // On vérifie les capots
     if (equipe1.cartes_gagnees.length == 0) {
