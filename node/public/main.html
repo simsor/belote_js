@@ -55,10 +55,7 @@
 				//quitter la partie de la belotte
 				$("#quitter_partie").click(function(){
 				    $.post("/arreterPartie", function(data) {
-
-					if (resultat.error) {
-					    alert("Erreur : " + resultat.error);
-					}
+					window.location.reload();
 				    });
 				});
 			    }
