@@ -29,4 +29,9 @@ module.exports = function(app){
     // Entrée : une carte JSON.parse(JSON.cycle(carte)) et un pseudo
     // Sortie : error ou success
     app.post("/jouerCarte", JeuController.JouerCarte);
+
+    // POST permettant de réinitialiser la partie
+    // Entrée : rien (n'importe qui peut le faire \o/)
+    // Sortie: success, ça peut pas chier. Si ça chie, le serveur crash sûrement
+    app.post("/arreterPartie", JeuController.ArreterPartie);
 };

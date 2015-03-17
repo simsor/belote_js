@@ -18,6 +18,10 @@ Object.castTableau = function(tab, constructor) {
     return tab;
 };
 
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to) {
   var rest = this.slice((to || from) + 1 || this.length);
@@ -367,4 +371,24 @@ module.exports.PasserCarte = function(request, response) {
 	    }
 	}
     }
+};
+
+module.exports.ArreterPartie = function(request, response) {
+    joueurs.length = 0;
+    table.deck.genererDepuisFichier("cartes.json");
+    etape = "attente";
+    equipe1.score = 0;
+    equipe2.score = 0;
+    equipe1.joueurs.length = 0;
+    equipe2.joueurs.length = 0;
+    equipe1.cartes_gagnees.length = 0;
+    equipe2.cartes_gagnees.length = 0;
+
+    table.carte_retournee = undefined;
+    table.atout = undefined;
+    table.couleur_demandee = undefined;
+    table.index_distributeur = getRandomInt(0, 3);
+    table.index_joueur_courant = (table.index_distributeur == 3) ? 0 : table.index_distributeur+1;
+
+    response.end(JSON.stringify({success: "Partie réinitialisée."});
 };
