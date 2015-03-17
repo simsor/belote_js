@@ -18,7 +18,8 @@
 	var atout = undefined;
 	var update_en_cours = false;
 	var travail_en_cours = false;
-
+	$(function(){
+		
 	if (!pseudo_joueur) {
 	    window.location.href = "http://www.google.fr";
 	}
@@ -43,6 +44,8 @@
 
 		    if (resultat.error) {
 			console.log("On attend");
+			$("#message").empty();
+			$("#message").append("<p>attente des joueurs ...</p>");
 		    }
 		    else {
 			var equipes = resultat.equipes;
@@ -57,7 +60,7 @@
 		});
 	    }
 	}
-
+});
 	</script>
 	<link rel="stylesheet" href="/css/style.css" />
 	<body>
@@ -77,8 +80,12 @@
 		<div id="centre" class="tapis-vertical">
 		    <div class="jeu-tapis"></div>
 		</div>
+		<div id="message">
+		</div>
+
 		<div id="pastille">
 		</div>
+
 	    </div>
 	</body>
 </html>
@@ -87,7 +94,7 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
     var joueurBas;
     var joueurHaut;
     var autreJoueurs = [];
-    
+
     for(var i=0; i < equipe1.joueurs.length; i++) {
 	if(equipe1.joueurs[i].pseudo == pseudo_joueur){
 	    joueurBas = equipe1.joueurs[i];
@@ -135,6 +142,13 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
 
     // On enlève les boutons
     $("button").remove();
+
+		$("#message").empty();
+		if(pseudo_joueur == joueur_actuel){
+			$("#message").append("<p>c'est à votre tour .</p>");
+		} else {
+			$("#message").append("<p>c'est au tour de "+joueur_actuel+" .</p>");
+		}
 
     //joueur HAUT (ami)
     $.each(joueurHaut.main, function() {

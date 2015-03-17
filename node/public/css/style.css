@@ -105,3 +105,15 @@ body {
     bottom : 10px;
     left:10px;
 }
+#message {
+    height: 60px;
+    background-color: rgb(200,200,200);
+    color: black;
+    font-weight : bold;
+    position : fixed;
+    bottom : 5px;
+    left:5px;
+    padding-left : 60px;
+    padding-right : 20px;
+    border-radius : 50px;
+}
