@@ -390,5 +390,5 @@ module.exports.ArreterPartie = function(request, response) {
     table.index_distributeur = getRandomInt(0, 3);
     table.index_joueur_courant = (table.index_distributeur == 3) ? 0 : table.index_distributeur+1;
 
-    response.end(JSON.stringify({success: "Partie réinitialisée."});
+    response.end(JSON.stringify({success: "Partie réinitialisée."}));
 };
