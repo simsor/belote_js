@@ -119,12 +119,12 @@ body {
 
     $('#bas .carte').mouseenter(function(){
       $(this).addClass("Selected");
-      $(this).animate({
+      $(this).css({
         width: "80px"
       }, 200 );
 
     $('#bas .carte').mouseout(function(){
-      $(this).animate({
+      $(this).css({
         width: "50px"
       }, 200 );
       $(this).removeClass('Selected');
@@ -140,22 +140,21 @@ body {
       $(this).removeClass("Selected");
       $(this).off("mouseenter");
       $(this).off("mouseout");
-      $(this).animate({
+      $(this).css({
         position: 'absolute',
         bottom : '50vh'
-      }, 500 ,function(){
-          var element = $(this);
-          //changement de block
-          element.detach();
-          $('#centre .jeu-tapis').append(element);
-          element.css('position','relative');
-          element.css('bottom','0');
-          //deuxième animation
-          element.animate({
-            width: "100px"
-          }, 250 );
-          element.css({width : "100px"});
-        });
+      });
+      var element = $(this);
+      //changement de block
+      element.detach();
+      $('#centre .jeu-tapis').append(element);
+      element.css('position','relative');
+      element.css('bottom','0');
+      //deuxième animation
+      element.css({
+        width: "100px"
+      }, 250 );
+      element.css({width : "100px"});
     });
   });
 
