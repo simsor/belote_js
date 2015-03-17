@@ -161,36 +161,52 @@ body {
   $.each(  joueur1.main, function() {
     $("#haut .jeu-joueur").append("<img  class='carte' src='jeu_de_carte/png/dos_de_carte.png' alt='dos de carte' />");
     $('#haut .jeu-joueur').addClass("vertical");
-  });
-  $("#haut").append("<p class='pseudo'>"+joueur1.pseudo+"</p>");
-  $.each(  joueur2.main, function() {
-    $("#droite .jeu-joueur").append("<img   class='carte rotate' src='jeu_de_carte/png/dos_de_carte.png' alt='dos de carte' />");
-    $('#droite .jeu-joueur').addClass("horizontal");
-  });
-  $("#droite").prepend("<p class='pseudo'>"+joueur2.pseudo+"</p>");
-  $.each(  joueur3.main, function() {
-    $("#gauche .jeu-joueur").append("<img  class='carte rotate' src='jeu_de_carte/png/dos_de_carte.png' alt='dos de carte' />");
-    $('#gauche .jeu-joueur').addClass("horizontal");
-  });
-  $("#gauche").prepend("<p class='pseudo'>"+joueur3.pseudo+"</p>");
-  $.each(  joueur4.main, function() {
-    var name = this.nom+"_de_"+this.couleur;
-    $("#bas .jeu-joueur").append("<img class='carte' src='jeu_de_carte/png/"+name+".png' alt='"+name+"' />");
-    $('#bas .jeu-joueur').addClass("vertical");
-  });
-  $("#bas").prepend("<p class='pseudo'>"+joueur4.pseudo+"</p>");
-  $('#bas .carte').mouseenter(function(){
-    $(this).addClass("Selected");
-    $(this).animate({
-      width: "80px"
-    }, 200 );
+    });
+    $("#haut").append("<p class='pseudo'>"+joueur1.pseudo+"</p>");
+    $.each(  joueur2.main, function() {
+      $("#droite .jeu-joueur").append("<img   class='carte rotate' src='jeu_de_carte/png/dos_de_carte.png' alt='dos de carte' />");
+      $('#droite .jeu-joueur').addClass("horizontal");
+    });
+    $("#droite").prepend("<p class='pseudo'>"+joueur2.pseudo+"</p>");
+    $.each(  joueur3.main, function() {
+      $("#gauche .jeu-joueur").append("<img  class='carte rotate' src='jeu_de_carte/png/dos_de_carte.png' alt='dos de carte' />");
+      $('#gauche .jeu-joueur').addClass("horizontal");
+    });
+    $("#gauche").prepend("<p class='pseudo'>"+joueur3.pseudo+"</p>");
+    $.each(  joueur4.main, function() {
+      var name = this.nom+"_de_"+this.couleur;
+      $("#bas .jeu-joueur").append("<img class='carte' src='jeu_de_carte/png/"+name+".png' alt='"+name+"' />");
+      $('#bas .jeu-joueur').addClass("vertical");
+    });
+    $("#bas").prepend("<p class='pseudo'>"+joueur4.pseudo+"</p>");
+
+    $('#bas .carte').mouseenter(function(){
+      $(this).addClass("Selected");
+      $(this).animate({
+        width: "80px"
+      }, 200 );
+
+    $('#bas .carte').mouseout(function(){
+      $(this).animate({
+        width: "50px"
+      }, 200 );
+      $(this).removeClass('Selected');
+    });
+
+    $(".Selected").dblclick(function(){
+      return false;
+    });
 
     //début de l'animation
     $(".Selected").click(function(){
+      $(this).off("click");
+      $(this).removeClass("Selected");
+      $(this).off("mouseenter");
+      $(this).off("mouseout");
       $(this).animate({
         position: 'absolute',
         bottom : '50vh'
-      }, 500 ).queue(function(){
+      }, 500 ,function(){
           var element = $(this);
           //changement de block
           element.detach();
@@ -199,26 +215,34 @@ body {
           element.css('bottom','0');
           //deuxième animation
           element.animate({
-            width: "50px"
+            width: "100px"
           }, 250 );
+          element.css({width : "100px"});
         });
     });
   });
-  $('#bas .carte').mouseout(function(){
-    $(this).animate({
-      width: "50px"
-    }, 200 );
-    $(this).removeClass('Selected');
-  });
 
+
+  // Rammasage
   function ramasserPli(direction){
-    alert("On rammasse!");
     $('#centre .jeu-tapis .carte').animate({
-        position : "absolute"
-      }, 1200 );
-  }
+        marginLeft : "-80px"
+      },200,function(){
+        if (direction == "top"){
+          $('#centre .jeu-tapis .carte').animate({
+              bottom : "50vh"
+            },200);
+        } else if (direction == "left"){
+          $('#centre .jeu-tapis .carte').animate({
+              right : "50vw"
+            },200);
+        }
+      });
+
+  };
+
   $("#haut").click(function(){
-    ramasserPli("haut");
+      ramasserPli("left");
     });
 
 
