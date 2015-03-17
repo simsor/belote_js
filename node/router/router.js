@@ -26,7 +26,7 @@ module.exports = function(app){
     app.post("/passerCarte", JeuController.PasserCarte);
 
     // POST permettant de jouer une carte
-    // Entrée : une carte JSON.parse(JSON.cycle(carte))
+    // Entrée : une carte JSON.parse(JSON.cycle(carte)) et un pseudo
     // Sortie : error ou success
     app.post("/jouerCarte", JeuController.JouerCarte);
 };

@@ -140,7 +140,7 @@ module.exports.JouerCarte = function(request, response) {
 	// On cherche le joueur correspondant au pseudo
 	joueur = joueurParPseudo(pseudo);
 
-	if (table.joueurs[table.indice_joueur_courant].pseudo == joueur.pseudo) {
+	if (table.joueurs[table.index_joueur_courant].pseudo == joueur.pseudo) {
 	    // On cherche la carte dans la main du joueur
 	    var carte_serveur = undefined;
 	    for(var i=0; i < joueur.main.length ; i++) {
@@ -150,7 +150,9 @@ module.exports.JouerCarte = function(request, response) {
 		    break;
 		}
 	    }
-	    if (carte_serveur == undefined) {
+	    if (carte_serveur != undefined) {
+		console.log("Joueur de la carte : " + carte_serveur.joueur.pseudo);
+		
 		if (table.cartePeutEtreJouee(carte_serveur)) {
 		    table.tapis.push(carte_serveur);
 		    response.end(JSON.stringify({ success: 'Carte jouée' }));

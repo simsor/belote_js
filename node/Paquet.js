@@ -253,8 +253,8 @@ module.exports.Table.prototype.distributionDeuxiemeTour = function() {
 
 module.exports.Table.prototype.getMaitre = function() {
     var atoutPresent = false;
-    for(var i=0; i < this.cartes.length; i++) {
-	if (this.cartes[i].atout) {
+    for(var i=0; i < this.deck.cartes.length; i++) {
+	if (this.deck.cartes[i].atout) {
 	    atoutPresent = true;
 	    break;
 	}
@@ -263,12 +263,12 @@ module.exports.Table.prototype.getMaitre = function() {
     if(atoutPresent) {
 	var atoutMax = undefined;
 	for(var i=0; i < this.cartes.length; i++) {
-	    if (this.cartes[i].atout) {
+	    if (this.deck.cartes[i].atout) {
 		if (atoutMax == undefined)
 		    atoutMax = this.cartes[i];
 
-		else if (this.cartes[i].valeur > atoutMax.valeur)
-		    atoutMax = this.cartes[i];
+		else if (this.deck.cartes[i].valeur > atoutMax.valeur)
+		    atoutMax = this.deck.cartes[i];
 		
 	    }
 	}
@@ -277,22 +277,27 @@ module.exports.Table.prototype.getMaitre = function() {
     }
     else {
 	var carteMax = undefined;
-	for(var i=0; i < this.cartes.length; i++) {
-	    if (this.cartes[i].couleur == this.couleur_demandee) {
+	for(var i=0; i < this.deck.cartes.length; i++) {
+	    if (this.deck.cartes[i].couleur == this.couleur_demandee) {
 		if (carteMax == undefined)
-		    carteMax = this.cartes[i];
+		    carteMax = this.deck.cartes[i];
 
-		else if (this.cartes[i].valeur > carteMax.valeur)
-		    carteMax = this.cartes[i];
+		else if (this.deck.cartes[i].valeur > carteMax.valeur)
+		    carteMax = this.deck.cartes[i];
 		
 	    }
 	}
-
-	return carteMax.joueur;
+	if (carteMax == undefined)
+	    return undefined;
+	else
+	    return carteMax.joueur;
     }
 };
 
 module.exports.Table.prototype.cartePeutEtreJouee = function(carte) {
+    if (this.tapis.length == 0)
+	return true;
+    
     if (carte.couleur == this.couleur_demandee)
 	return true;
 
