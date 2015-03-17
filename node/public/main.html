@@ -8,10 +8,32 @@
 <script src="/js/Joueur.js"></script>
 <script src="/js/cycle.js"></script>
 <script type="text/javascript">
-var joueur1 = new Joueur();
-var joueur2 = new Joueur();
-var joueur3 = new Joueur();
-var joueur4 = new Joueur();
+
+var pseudo_joueur = prompt("Quel est votre nom ?");
+
+$.post("/rejoindreJeu", { pseudo: pseudo_joueur }, function(data) {
+    var resultat = JSON.parse(data);
+
+    if (resultat.error) {
+	alert("Erreur : " + resultat.error);
+    }
+    else {
+	setInterval(rafraichirPartie, 1000);
+    }
+});
+
+function rafraichirPartie() {
+    $.get("/recupererEtatJeu", function(data) {
+	var resultat = JSON.retrocycle(JSON.parse(data));
+
+	if (resultat.error) {
+	    console.log("On attend");
+	}
+	else {
+	    var equipes = resultat.equipes;
+	}
+    });
+}
 
 </script>
 <style>

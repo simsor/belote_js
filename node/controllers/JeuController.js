@@ -45,19 +45,19 @@ function joueurParPseudo(pseudo) {
 
 module.exports.RetournerEtat = function(request, response){
     if (joueurs.length < 4) {
-	response.end("{ error: 'Pas assez de joueurs' }");
+	response.end(JSON.stringify({ error: 'Pas assez de joueurs' }));
     }
     else {
 	var retour = {
 	    etape: etape,
-	    tapis: JSON.stringify(module_cycle.decycle(table.tapis)),
-	    atout: JSON.stringify(module_cycle.decycle(table.atout)),
+	    tapis: table.tapis,
+	    atout: table.atout,
 	    joueurActuel: table.index_joueur_courant,
-	    equipes: [ JSON.stringify(module_cycle.decycle(equipe1)),
-		       JSON.stringify(module_cycle.decycle(equipe2)) ]
+	    equipes: [ equipe1,
+		       equipe2 ]
 	};
 
-	response.end(JSON.stringify(retour));
+	response.end(JSON.stringify(module_cycle.decycle(retour)));
     }
 };
 
@@ -119,18 +119,18 @@ function finDeLaManche() {
     table.deck = equipe1.cartes_gagnees.concat(equipe2.cartes_gagnees);
     table.deck.couper();
     
-    // On repasse état à tour1
-    etat = "tour1";
+    // On repasse étape à tour1
+    etape = "tour1";
 
     lancerNouvellePartie();
 }
 
 module.exports.JouerCarte = function(request, response) {
     if (joueurs.length < 4) {
-	response.end("{ error: 'Pas assez de joueurs' }");
+	response.end(JSON.stringify({ error: 'Pas assez de joueurs' }));
     }
-    else if (etat != "manche") {
-	response.end("{ error: 'Pas le moment pour ca' }");
+    else if (etape != "manche") {
+	response.end(JSON.stringify({ error: 'Pas le moment pour ca' }));
     }
     else {
 	var carte = module_cycle.retrocycle(JSON.parse(request.body.carte));
@@ -152,7 +152,7 @@ module.exports.JouerCarte = function(request, response) {
 	    if (carte_serveur == undefined) {
 		if (table.cartePeutEtreJouee(carte_serveur)) {
 		    table.tapis.push(carte_serveur);
-		    response.end("{ succes: 'Carte jouée' }");
+		    response.end(JSON.stringify({ success: 'Carte jouée' }));
 
 		    // La carte a été jouée, on vérifie si le tour est fini
 		    if (table.tapis.length == 4) {
@@ -161,15 +161,15 @@ module.exports.JouerCarte = function(request, response) {
 		    }
 		}
 		else {
-		    response.end("{ error: 'Cette carte ne peut pas être jouée' }");
+		    response.end(JSON.stringify({ error: 'Cette carte ne peut pas être jouée' }));
 		}
 	    }
 	    else {
-		response.end("{ error: 'Vous n'avez pas cette carte' }");
+		response.end(JSON.stringify({ error: "Vous n'avez pas cette carte" }));
 	    }
 	}
 	else {
-	    response.end("{ error: \"Ce n'est pas votre tour\" }");
+	    response.end(JSON.stringify({ error: "Ce n'est pas votre tour" }));
 	}
     }
 };
@@ -182,10 +182,16 @@ function lancerNouvellePartie() {
 
 module.exports.AjouterJoueur = function(request, response) {
     var pseudo = request.body.pseudo;
-    var equipe = request.body.equipe;
+    var equipe = -1;
+    if (equipe1.joueurs.length >= 2) {
+	equipe = 2;
+    }
+    else {
+	equipe = 1;
+    }
     var ancienne_longueur = joueurs.length;
     if (joueurs.length >= 4) {
-	response.end("{ error: 'Plus de place sur la table' }");
+	response.end(JSON.stringify({ error: 'Plus de place sur la table' }));
     }
     else {
 	var j;
@@ -194,17 +200,17 @@ module.exports.AjouterJoueur = function(request, response) {
 	    joueurs.push(j);
 	    equipe1.joueurs.push(j);
 	    table.joueurs.push(j);
-	    response.end("{ success: 'Joueur ajouté' }");
+	    response.end(JSON.stringify({ success: 'Joueur ajouté' }));
 	}
 	else if (equipe == 2 && equipe2.joueurs.length < 2) {
 	    j = new module_joueur.Joueur(pseudo, equipe2);
 	    joueurs.push(j);
 	    equipe2.joueurs.push(j);
 	    table.joueurs.push(j);
-	    response.end("{ success: 'Joueur ajouté' }");
+	    response.end(JSON.stringify({ success: 'Joueur ajouté' }));
 	}
 	else
-	    response.end("{ error: 'Equipe inconnue ou pleine' }");
+	    response.end(JSON.stringify({ error: "Equipe inconnue ou pleine" }));
     }
 
     if (ancienne_longueur == 3 && joueurs.length == 4) {
@@ -216,14 +222,14 @@ module.exports.PrendreCarte = function(request, response) {
     var pseudo = request.body.pseudo;
 
     if (joueurs.length < 4) {
-	response.end("{ error: \"La partie n'a pas commencé\" }");
+	response.end(JSON.stringify({ error: "La partie n'a pas commencé" }));
     }
     else {
 	console.log(pseudo);
 	var joueur = joueurParPseudo(pseudo);
 
 	if (joueur == undefined) {
-	    response.end("{ error: \"Vous n'existez pas.\" }");
+	    response.end(JSON.stringify({ error: "Vous n'existez pas." }));
 	}
 	else {
 	    if (table.joueurs[table.index_joueur_courant].pseudo == joueur.pseudo) {
@@ -238,11 +244,11 @@ module.exports.PrendreCarte = function(request, response) {
 		    etape = "manche";
 		}
 		else {
-		    response.end("{ error: 'WTF' }");
+		    response.end(JSON.stringify({ error: 'WTF' }));
 		}
 	    }
 	    else {
-		response.end("{ error: \"Ce n'est pas votre tour\" }");
+		response.end(JSON.stringify({ error: "Ce n'est pas votre tour" }));
 	    }
 	}
 	
