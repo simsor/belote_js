@@ -32,7 +32,7 @@ var equipe1 = new module_joueur.Equipe(1);
 var equipe2 = new module_joueur.Equipe(2);
 
 var deck = new module_paquet.Deck();
-deck.genererDepuisFichier("../cartes.json");
+deck.genererDepuisFichier("cartes.json");
 var table = new module_paquet.Table(deck);
 var etape = "attente"; // attente, tour1, tour2, manche
 
