@@ -226,6 +226,11 @@ function lancerNouvellePartie() {
 
     table.unsetAtout();
     table.atout = undefined;
+
+    if (table.index_distributeur == 3)
+	table.index_joueur_courant = 0;
+    else
+	table.index_joueur_courant = table.index_distributeur + 1;
     
     table.distributionInitiale();
     table.retourner();
