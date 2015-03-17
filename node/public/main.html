@@ -19,7 +19,7 @@
 	var update_en_cours = false;
 	var travail_en_cours = false;
 	$(function(){
-		
+
 	if (!pseudo_joueur) {
 	    window.location.href = "http://www.google.fr";
 	}
@@ -32,6 +32,7 @@
 	    }
 	    else {
 		equipe_joueur = resultat.equipe;
+		$('body').apppend("<button id='quitter_partie'>Quitter la partie</button>")
 		setInterval(rafraichirPartie, 1000);
 	    }
 	});
@@ -60,6 +61,16 @@
 		});
 	    }
 	}
+
+	//quitter la partie de la belotte
+	$("#quitter_partie").click(function(){
+		$.post("/arreterPartie", function(data) {
+
+		    if (resultat.error) {
+					alert("Erreur : " + resultat.error);
+		    }
+		});
+	});
 });
 	</script>
 	<link rel="stylesheet" href="/css/style.css" />
@@ -337,6 +348,7 @@ function AfficherLesCartesSurTapis(equipe1, equipe2){
 
     //début de l'animation
 }
+
 
 // Rammasage
 function ramasserPli(direction){

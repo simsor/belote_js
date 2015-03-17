@@ -118,3 +118,8 @@ body {
     padding-right : 20px;
     border-radius : 50px;
 }
+#quitter_partie {
+  position : fixed;
+  top : 10px;
+  right:10px;
+}
