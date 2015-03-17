@@ -5,7 +5,7 @@ JsBelote
 Présentation du jeu
 -------------------
 
-Ben c'est un jeu de belote grâce auquel on peut joueur à la belote...
+Ben c'est un jeu de belote grâce auquel on peut jouer à la belote...
 
 Ca marche plus ou moins, il y a moyen de s'amuser mais c'est pas encore fini à 100%
 
