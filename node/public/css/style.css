@@ -1,6 +1,7 @@
 body {
     overflow : hidden;
     background-image : url('/image/bois_table.jpg');
+    font-family: Arial, Helvetica, sans-serif;
 }
 #tapis {
     height: 100vh;
