@@ -15,10 +15,15 @@ module.exports = function(app){
     app.post("/rejoindreJeu", JeuController.AjouterJoueur);
 
     // POST permettant de prendre une carte
-    // Entrée : rien si tour 1 (prends juste la carte)
-    //          couleur si tour 2 : la couleur à laquelle on prend
+    // Entrée : juste le pseudo si tour 1 (prends juste la carte)
+    //          pseudo et couleur si tour 2 : la couleur à laquelle on prend
     // Sortie : erreur ou success
     app.post("/prendreCarte", JeuController.PrendreCarte);
+
+    // POST permettant de passer une carte
+    // Entrée : le pseudo du joueur
+    // Sortie : erreur ou success
+    app.post("/passerCarte", JeuController.PasserCarte);
 
     // POST permettant de jouer une carte
     // Entrée : une carte JSON.parse(JSON.cycle(carte))

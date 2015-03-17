@@ -50,9 +50,10 @@ module.exports.RetournerEtat = function(request, response){
     else {
 	var retour = {
 	    etape: etape,
+	    carte_retournee: table.carte_retournee,
 	    tapis: table.tapis,
 	    atout: table.atout,
-	    joueurActuel: table.index_joueur_courant,
+	    joueurActuel: joueurs[table.index_joueur_courant].pseudo,
 	    equipes: [ equipe1,
 		       equipe2 ]
 	};
@@ -175,6 +176,7 @@ module.exports.JouerCarte = function(request, response) {
 };
 
 function lancerNouvellePartie() {
+    table.deck.melanger();
     table.distributionInitiale();
     table.retourner();
     etape="tour1";
@@ -238,11 +240,13 @@ module.exports.PrendreCarte = function(request, response) {
 		// C'est bien son tour
 		if (etape == "tour1") {
 		    table.fairePrendre(joueur, false);
-		    etape = "tour2";
+		    table.distributionDeuxiemeTour();
+		    etape = "manche";
 		}
 		else if (etape == "tour2") {
 		    var couleur = request.body.couleur;
 		    table.fairePrendre(joueur, true, couleur);
+		    table.distributionDeuxiemeTour();
 		    etape = "manche";
 		}
 		else {
@@ -254,5 +258,30 @@ module.exports.PrendreCarte = function(request, response) {
 	    }
 	}
 	
+    }
+};
+
+module.exports.PasserCarte = function(request, response) {
+    var pseudo = request.body.pseudo;
+    
+    if (joueurs.length < 4) {
+	response.end(JSON.stringify({ error: "La partie n'a pas commencé" }));
+    }
+    else {
+	var joueur = joueurParPseudo(pseudo);
+
+	if (joueur == undefined) {
+	    response.end(JSON.stringify({ error: "Vous n'existez pas." }));
+	}
+	else {
+	    if (table.joueurs[table.index_joueur_courant].pseudo == joueur.pseudo) {
+		// C'est bien son tour
+
+		if (table.index_joueur_courant == 3)
+		    table.index_joueur_courant = 0;
+		else
+		    table.index_joueur_courant += 1;
+	    }
+	}
     }
 };
