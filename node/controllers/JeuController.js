@@ -121,6 +121,8 @@ function finDeLaManche() {
     
     // On repasse état à tour1
     etat = "tour1";
+
+    lancerNouvellePartie();
 }
 
 module.exports.JouerCarte = function(request, response) {

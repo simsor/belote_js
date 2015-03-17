@@ -19,4 +19,9 @@ module.exports = function(app){
     //          couleur si tour 2 : la couleur à laquelle on prend
     // Sortie : erreur ou success
     app.post("/prendreCarte", JeuController.PrendreCarte);
+
+    // POST permettant de jouer une carte
+    // Entrée : une carte JSON.parse(JSON.cycle(carte))
+    // Sortie : error ou success
+    app.post("/jouerCarte", JeuControllet.JouerCarte);
 };
