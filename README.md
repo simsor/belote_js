@@ -24,6 +24,10 @@ Se placer dans le répertoire node *(NB: il n'existera bientôt plus)* et lancer
 npm update && node app
 `
 
-Chaque joueur doit ensuite se connecter sur le port 6800 de votre machine avec un navigateur Internet.
+Chaque joueur doit ensuite se connecter sur le port 6800 de votre machine avec un navigateur Internet, sur le fichier /jeu.
+
+`
+http://machine:6800/jeu
+`
 
 Testé sous Firefox et Chrome dans leur dernière version. Pas de support prévu sur d'autres navigateurs.
