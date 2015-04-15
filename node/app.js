@@ -14,7 +14,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use('/image',express.static(path.join(__dirname+ '/public/image')));
 app.use('/css',express.static(path.join(__dirname+'/public/css')));
 app.use('/js',express.static(path.join(__dirname+'/public/js')));
-app.use('/',express.static(path.join(__dirname+'/public/main.html')));
+app.use('/jeu',express.static(path.join(__dirname+'/public/main.html')));
 
 app.use(session({
     secret: 'nC0@#1pM/-0qA1+é',
